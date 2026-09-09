@@ -1,13 +1,13 @@
 ---
-name: organize-docs
+name: agent-docs
 description: >-
-  Organize repository documentation by purpose for progressive agent discovery.
+  Organize agent-facing documentation by purpose for progressive discovery.
   Use to initialize greenfield documentation, migrate an existing documentation
   tree, install or update this project-local skill, or consult and maintain its
   current/design/reference conventions.
 ---
 
-# Organize documentation
+# Agent documentation
 
 Keep current application editing guidance separate from design progress and
 historical evidence. A fresh agent should find the owner of a change without

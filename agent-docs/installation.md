@@ -11,7 +11,7 @@ Installation supplies instructions, not a completed application guide or migrati
 1. Resolve the target repository root and follow its Git/change-safety rules.
    Preserve pre-existing work; installing a skill does not authorize committing,
    stashing, deleting, or resetting unrelated files.
-2. Install at `.agents/skills/organize-docs/` so multiple agent tools can discover
+2. Install at `.agents/skills/agent-docs/` so multiple agent tools can discover
    the same project-local package. Do not choose a harness-specific location or
    add a second installed copy. When migrating an earlier installation, compare
    its contents, preserve intentional edits, and remove the superseded copy only
@@ -44,7 +44,7 @@ Use these literal, standalone HTML comment markers in the root `AGENTS.md`:
 ## Documentation
 
 For repository work, first read the installed
-[documentation consultation guide](.agents/skills/organize-docs/consultation.md).
+[documentation consultation guide](.agents/skills/agent-docs/consultation.md).
 Follow its purpose-specific index routing and maintenance rules.
 <!-- docs-organization:end -->
 ```
