@@ -32,19 +32,29 @@ Git workflow for the current repository task.
 
    Once on a feature branch, continue the requested work.
 
-## After Editing
+## When Proposing Work
 
-When the user has already approved the requested changes, autonomously divide
-them into separate commits wherever there are obvious, coherent task boundaries.
-Do not ask for approval of the split or each commit; approval of the changes is
-enough once this workflow is enabled. Respect any explicit user instructions
-about commit grouping.
+When ready to present a work proposal to the user, include the intended commits
+alongside the work to be done. Identify each commit's task boundary with a short
+description of its scope, in the intended commit order. Propose separate commits
+where the work has obvious, coherent task boundaries rather than deciding the
+split only after implementation.
+
+Approval of the proposal approves its commit grouping. Carry out that grouping
+autonomously without asking again for each commit. Respect explicit user
+instructions about grouping, and include any material change to the proposed
+boundaries when presenting a revised work proposal.
 
 Each commit must represent a complete, reviewable unit. Keep tightly coupled
 implementation, callers, tests, and documentation together; do not split merely
 by file or to reach a commit count. Order dependent commits so each leaves a
-working state. If no clear split exists, use one commit. This discretion does
-not authorize unapproved scope, branch changes, merges, or pushes.
+working state. If no clear split exists, propose one commit. Do not introduce a
+separate planning checkpoint solely for commits when no work proposal is needed;
+without an approved grouping, use one commit for the requested work.
+Proposal approval does not authorize unapproved scope, branch changes, merges,
+or pushes.
+
+## After Editing
 
 1. Complete the requested changes and any appropriate focused verification.
 2. Inspect the final change set with `git status --short` and `git diff --check`.
@@ -62,7 +72,7 @@ not authorize unapproved scope, branch changes, merges, or pushes.
    Verify the staged change as a complete unit without relying on unstaged or
    later changes; keep changes together when they cannot be separated safely.
 
-4. Create one concise commit per task boundary using this convention precedence:
+4. Create one concise commit per planned task boundary using this convention precedence:
 
    - Follow the repository's explicit commit convention first, including its
      instructions, contributor documentation, or commit-message configuration.
