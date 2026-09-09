@@ -45,17 +45,54 @@ Git workflow for the current repository task.
    git add -A -- <changed-path>...
    ```
 
-4. Create one concise, imperative commit. Match the repository's established
-   commit-subject convention when it is evident; otherwise use a plain subject
-   that describes the user-visible change:
+4. Create one concise commit using this convention precedence:
+
+   - Follow the repository's explicit commit convention first, including its
+     instructions, contributor documentation, or commit-message configuration.
+     Repository rules take precedence over examples in history.
+   - If no convention is specified, inspect a representative sample of recent
+     non-merge commits and mimic their style. For example:
+
+     ```sh
+     git log -30 --no-merges --format=%s
+     ```
+
+     When multiple styles appear, favor the most frequent convention rather than
+     blindly copying the latest commit. Match its subject structure, prefix/scope
+     usage, and capitalization; inspect bodies when their format matters. If
+     styles are equally frequent, prefer the one used more recently.
+   - If there is no useful history, use a plain, concise imperative subject
+     describing the change. Do not invent a mandatory convention for the project.
 
    ```sh
-   git commit -m "<imperative summary>"
+   git commit -m "<subject matching the selected convention>"
    ```
 
    Do not amend an existing commit, bypass hooks, force-push, or make a second
    cleanup commit unless the user explicitly asks. If staging or committing
    fails, preserve the worktree and report the failure.
+
+## Offer to Merge Substantial Work
+
+After substantial work is complete, verified, and committed on a feature branch,
+include a merge offer in the final plain-text response. Name the actual feature
+branch and the local target: prefer `main`, otherwise `master`. If neither exists,
+ask which target to use rather than inventing one.
+
+For example:
+
+> Would you like me to merge `feature/example` into `main`?
+
+Ask conversationally, without the Ask tool, structured-choice dialogs, or similar
+interactive question tools. Wait for explicit user approval before switching
+branches or merging. Enabling the automatic workflow is not itself merge approval.
+If the user has already explicitly requested the merge of this completed work,
+follow that request instead of asking again; do not carry approval from a
+different feature branch forward.
+
+If the user declines, leave the completed work on its feature branch and do not
+repeat the offer for the same work. Approved merges still follow the clean-worktree
+and fast-forward-only procedure below; the offer does not authorize a push.
 
 ## Fast-Forward Merge Requests
 
