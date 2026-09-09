@@ -34,18 +34,35 @@ Git workflow for the current repository task.
 
 ## After Editing
 
+When the user has already approved the requested changes, autonomously divide
+them into separate commits wherever there are obvious, coherent task boundaries.
+Do not ask for approval of the split or each commit; approval of the changes is
+enough once this workflow is enabled. Respect any explicit user instructions
+about commit grouping.
+
+Each commit must represent a complete, reviewable unit. Keep tightly coupled
+implementation, callers, tests, and documentation together; do not split merely
+by file or to reach a commit count. Order dependent commits so each leaves a
+working state. If no clear split exists, use one commit. This discretion does
+not authorize unapproved scope, branch changes, merges, or pushes.
+
 1. Complete the requested changes and any appropriate focused verification.
 2. Inspect the final change set with `git status --short` and `git diff --check`.
    Do not commit a broken working tree or unrelated files introduced after the
    initial clean-state check. If there are no changes, do not create an empty
    commit.
-3. Stage only files changed for the request, including deletions:
+3. For each commit, stage only the files or hunks belonging to that task boundary,
+   including deletions. When entire files belong to the commit:
 
    ```sh
    git add -A -- <changed-path>...
    ```
 
-4. Create one concise commit using this convention precedence:
+   If a file spans multiple task boundaries, stage only the relevant hunks.
+   Verify the staged change as a complete unit without relying on unstaged or
+   later changes; keep changes together when they cannot be separated safely.
+
+4. Create one concise commit per task boundary using this convention precedence:
 
    - Follow the repository's explicit commit convention first, including its
      instructions, contributor documentation, or commit-message configuration.
@@ -68,9 +85,10 @@ Git workflow for the current repository task.
    git commit -m "<subject matching the selected convention>"
    ```
 
-   Do not amend an existing commit, bypass hooks, force-push, or make a second
-   cleanup commit unless the user explicitly asks. If staging or committing
-   fails, preserve the worktree and report the failure.
+   Repeat staging and committing for each task boundary. Do not amend an existing
+   commit, bypass hooks, force-push, or make an unplanned cleanup commit unless
+   the user explicitly asks. Fold cleanup into its task's commit before committing.
+   If staging or committing fails, preserve the worktree and report the failure.
 
 ## Offer to Merge Substantial Work
 
