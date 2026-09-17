@@ -12,7 +12,8 @@ When the user starts coding work in a Git repository, ask:
 > Would you like to enable the automatic Git workflow for this task? It starts
 > from a clean worktree, works on a feature branch, commits completed changes using
 > the repository's commit convention, proposes task-based commits alongside the
-> work plan, and offers fast-forward-only merges after substantial work.
+> work plan, and offers fast-forward-only merges followed by local feature branch
+> deletion after substantial work.
 
 - If the user declines, perform the requested work normally. Do not load the
   workflow instructions or take Git actions on this skill's behalf.

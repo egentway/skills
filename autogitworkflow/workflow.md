@@ -122,7 +122,7 @@ If the user declines, leave the completed work on its feature branch and do not
 repeat the offer for the same work. Approved merges still follow the clean-worktree
 and fast-forward-only procedure below; the offer does not authorize a push.
 
-## Fast-Forward Merge Requests
+## Fast-Forward Merge Requests and Branch Cleanup
 
 When the user asks to merge the completed feature branch, capture the named
 feature branch (or the current feature branch) before switching. First confirm
@@ -130,20 +130,28 @@ the worktree is clean and identify the target branch: prefer local `main`, then
 local `master`. If neither exists, ask the user for the target. Refuse a merge
 from a detached HEAD, an integration branch, or an unspecified feature branch.
 
-Use a fast-forward-only merge from the target branch:
+Use a fast-forward-only merge from the target branch, then delete the merged local
+feature branch:
 
 ```sh
 git switch <main-or-master>
 git merge --ff-only <feature-branch>
+git branch -d <feature-branch>
 ```
 
-`--ff-only` belongs to `git merge`, not `git checkout`. The equivalent command
-using the older checkout syntax is:
+`--ff-only` belongs to `git merge`, not `git checkout`. The equivalent commands
+using the older checkout syntax are:
 
 ```sh
 git checkout <main-or-master>
 git merge --ff-only <feature-branch>
+git branch -d <feature-branch>
 ```
+
+Run the deletion only after the merge succeeds. Delete only the local feature
+branch; remote branch deletion requires separate user approval. Never force-delete
+a feature branch. If deletion fails after a successful merge, keep the merge and
+report the cleanup failure.
 
 If the merge cannot fast-forward, leave both branches unchanged and report that
 a merge commit or rebase would be required; do neither unless the user asks.
