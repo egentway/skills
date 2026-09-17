@@ -91,6 +91,14 @@ Do not stop after outlining the first unit. Separate plans do not themselves
 require separate documents, branches, commits, or agents; follow any enabled
 workflow for those decisions.
 
+For small-to-medium tasks, generally plan to do the work directly rather than
+delegate it to a subagent. Task division is for reviewability, not an automatic
+agent assignment. Delegate only when there is a concrete benefit, such as
+substantial independent work that can genuinely run in parallel, and that benefit
+outweighs the handoff, coordination, and integration overhead. Do not delegate a
+bounded task merely because a subagent is available. Respect explicit user
+requests and applicable repository rules about delegation.
+
 ## 2. Present the main path first
 
 Begin the plan with the selected scope and a short end-to-end flow. Name the real
@@ -251,6 +259,8 @@ After approval, follow the repository's implementation and verification rules.
 Use the plan as the agreed contract, not a reason to ignore new evidence.
 
 - Resolve routine details autonomously using local conventions.
+- Carry the direct-execution default above into implementation. Separate approved
+  task plans do not by themselves justify handing each task to a subagent.
 - Surface consequential changes before they spread through callers or schemas.
   Explain the discovered seam, viable choices, recommendation, and impact on the
   plan/map. Obtain approval when the change alters the agreed behavior or boundary.
