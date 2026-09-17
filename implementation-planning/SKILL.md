@@ -21,6 +21,8 @@ feedback; do not present an untried process as validated practice.
 - Plan first. Do not implement until the user approves the plan.
 - Carry forward the user's decisions, terminology, constraints, and exclusions.
   A reference catalogue is evidence, not approval to implement every capability.
+- When the work has obvious, coherent task boundaries, give each unit a separate
+  reviewable plan. Keep tightly coupled changes together; do not force a split.
 - Interleave explanations and abridged code. Neither a prose-only checklist nor
   a disconnected collection of snippets is sufficient.
 - Label every code excerpt with its project-relative file path and whether the
@@ -55,6 +57,39 @@ Before drafting:
 
 Do not turn routine naming and local implementation choices into a questionnaire.
 Conversely, do not silently narrow the user's request to the easiest slice.
+
+### Divide obvious units of work before drafting
+
+Look for distinct outcomes the user can evaluate separately, not merely different
+files, layers, or implementation steps. When those units are obvious, present
+separately titled task plans rather than one undifferentiated walkthrough. If the
+change is one cohesive unit, keep one plan.
+
+Start with a compact overview naming all units, their outcomes, and their real
+dependencies or implementation order. Preserve the full agreed scope. Division
+must not quietly defer a requested unit or turn it into an unspecified follow-up.
+
+Each task plan follows the presentation contract below: its own scope and
+exclusions, main path, explanation interleaved with abridged code, connections,
+implementation sequence, verification, and planned file impact. A task heading
+over a checklist is not a separate plan. Shared context and contracts may be
+explained once and referenced explicitly rather than copied into every plan.
+
+Keep the boundaries honest:
+
+- Keep a behavior change with the callers, tests, and documentation needed to
+  make it complete. Do not split those into separate tasks merely by file type.
+- Units may depend on one another; separate review does not imply independent
+  execution. Name the prerequisite and the interface or result it supplies.
+- For shared interfaces or files, identify which unit introduces the contract,
+  which units consume or change it, and where their integration is verified.
+- If a proposed split requires temporary shims, broken intermediate states, or
+  repeated explanations of inseparable behavior, keep that work in one plan.
+
+Present all task plans for review unless the user asks for a staged discussion.
+Do not stop after outlining the first unit. Separate plans do not themselves
+require separate documents, branches, commits, or agents; follow any enabled
+workflow for those decisions.
 
 ## 2. Present the main path first
 
@@ -144,6 +179,9 @@ Do not invent migrations, compatibility layers, version bumps, or extra machiner
 
 Place a brief tree of impacted files immediately before the approval checkpoint.
 The tree is the compact index of the preceding plan, not an additional scope list.
+For divided work, give each task plan its own map, then finish the overall
+presentation with a compact combined tree before asking for approval. Annotate
+shared files with the tasks that affect them so overlap remains visible.
 
 Use a legend such as:
 
@@ -193,6 +231,11 @@ End with a direct question, for example:
 
 Briefly identify consequential choices if they would otherwise be buried in the
 walkthrough. Then stop. Do not edit implementation files while waiting.
+
+For divided work, name the task plans covered by the approval question. The user
+may approve the set or a named subset; approval of one does not approve the rest.
+Implement only approved units whose prerequisites are already available or also
+approved. Keep unapproved units visible as pending, not silently dropped.
 
 If the user requests a change, update the relevant explanation, code connections,
 verification, and blast-radius map together. Ask for approval of the revised plan.
