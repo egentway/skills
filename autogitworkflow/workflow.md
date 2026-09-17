@@ -1,36 +1,74 @@
 # Enabled Auto Git Workflow
 
-Use these instructions only after the user explicitly opts in to the automatic
-Git workflow for the current repository task.
+Use these instructions only after the user explicitly opts in, explicitly asks
+for this workflow, or invokes the skill manually for the current repository task.
 
 ## Before Editing
 
-1. Resolve the repository root with `git rev-parse --show-toplevel` and operate
-   only in that worktree.
+1. Resolve the repository root with `git rev-parse --show-toplevel`. Record this
+   original worktree path.
 2. Check all tracked, staged, and untracked state with:
 
    ```sh
    git status --porcelain=v1 --untracked-files=all
    ```
 
-   Continue only when it produces no output. If it is not clean, show the
+   Continue only when it produces no output. This applies even when a separate
+   worktree could be created: otherwise the new branch would silently exclude the
+   user's uncommitted starting state. If the worktree is not clean, show the
    status and ask the user how to proceed. Never stash, discard, reset, commit,
    or include existing changes without an explicit instruction.
-3. Read the current branch with `git branch --show-current`. A detached HEAD,
-   `main`, `master`, and common integration branches (`develop`, `development`,
-   `staging`, `production`, `release/*`) are not feature branches. Treat a
-   named, task-oriented branch as a feature branch, including the common
+3. Read the current branch with `git branch --show-current`. If HEAD is detached,
+   stop and ask which local branch should be the task's base and merge target.
+   Treat `main`, `master`, and common integration branches (`develop`,
+   `development`, `staging`, `production`, `release/*`) as integration branches.
+   Treat a named, task-oriented branch as a feature branch, including the common
    `feature/*`, `feat/*`, `fix/*`, and `bugfix/*` forms.
-4. If the branch is not clearly a feature branch, ask whether to create a new
-   feature branch before making any edits. Do not create or switch a branch
-   until the user agrees. If they agree but do not supply a name, create a
-   descriptive `feature/<short-task-slug>` branch from the current clean HEAD:
+4. If already on a clear feature branch, use its current worktree and do not ask
+   to create another workspace. Record whether it is the primary worktree or a
+   linked worktree. Treat a linked worktree as Worktrunk mode after verifying
+   that `wt` recognizes it; if `wt` is unavailable or does not recognize it, ask
+   the user how its eventual cleanup should be handled before editing. Record an
+   explicitly named merge target; otherwise prefer local `main`, then local
+   `master`, and ask if neither exists.
+5. Otherwise, record the current branch as the task's base and merge target. Ask
+   the user to choose one of these workspace modes before editing:
+
+   - **Worktrunk worktree** — create an isolated worktree and feature branch.
+   - **In-place feature branch** — create and switch branches in the current
+     worktree.
+
+   Do not infer the choice or create either workspace before the user answers. If
+   the user does not supply a branch name, use a descriptive
+   `feature/<short-task-slug>`.
+6. For an in-place feature branch, run:
 
    ```sh
    git switch -c feature/<short-task-slug>
    ```
 
-   Once on a feature branch, continue the requested work.
+   Record the repository root as the feature workspace path.
+7. For a Worktrunk worktree, first verify that `wt` is available. If it is not,
+   report the missing prerequisite and offer the in-place feature branch instead;
+   do not silently fall back. Create the workspace with normal hooks enabled:
+
+   ```sh
+   wt switch --create feature/<short-task-slug> \
+     --base=<recorded-target-branch> \
+     --no-cd \
+     --format=json
+   ```
+
+   Record the returned `path` as the feature workspace path. `--no-cd` is
+   required because a tool subprocess cannot change the agent's persistent
+   working directory. Run every subsequent repository read, edit, command, and
+   verification in the returned path.
+
+   Never pass `--yes` or `--no-hooks` to bypass Worktrunk hook approval. If a
+   hook requires approval, stop and tell the user to run
+   `wt config approvals add`, then resume after they approve the commands.
+
+Once the workspace is established, continue the requested work there.
 
 ## When Proposing Work
 
@@ -104,55 +142,73 @@ or pushes.
 
 After substantial work is complete, verified, and committed on a feature branch,
 include a merge offer in the final plain-text response. Name the actual feature
-branch and the local target, and state that the merged feature branch will be
-deleted: prefer `main`, otherwise `master`. If neither exists, ask which target
-to use rather than inventing one.
+branch and the recorded local target. State exactly what successful cleanup will
+delete.
 
-For example:
+For a Worktrunk worktree:
 
-> Would you like me to merge `feature/example` into `main` and delete it?
+> Would you like me to merge `feature/example` into `main` and delete its worktree and branch?
+
+For an in-place feature branch:
+
+> Would you like me to merge `feature/example` into `main` and delete the branch?
 
 Ask conversationally, without the Ask tool, structured-choice dialogs, or similar
-interactive question tools. Wait for explicit user approval before switching
-branches or merging. Enabling the automatic workflow is not itself merge approval.
-If the user has already explicitly requested the merge of this completed work,
-follow that request instead of asking again; do not carry approval from a
-different feature branch forward.
+interactive question tools. Wait for explicit user approval before merging.
+Enabling the automatic workflow is not itself merge approval. If the user has
+already explicitly requested the merge of this completed work, follow that
+request instead of asking again; do not carry approval from a different feature
+branch forward.
 
-If the user declines, leave the completed work on its feature branch and do not
-repeat the offer for the same work. Approved merges still follow the clean-worktree
-and fast-forward-only procedure below; the offer does not authorize a push.
+If the user declines, leave the completed workspace and branch intact and do not
+repeat the offer for the same work. The offer does not authorize a push or remote
+branch deletion.
 
-## Fast-Forward Merge Requests and Branch Cleanup
+## Merge Requests and Local Cleanup
 
-When the user asks to merge the completed feature branch, capture the named
-feature branch (or the current feature branch) before switching. First confirm
-the worktree is clean and identify the target branch: prefer local `main`, then
-local `master`. If neither exists, ask the user for the target. Refuse a merge
-from a detached HEAD, an integration branch, or an unspecified feature branch.
+Before merging, confirm that the feature workspace is clean. Capture the feature
+branch, recorded target branch, feature workspace path, and target worktree path
+before any cleanup. Refuse a merge from a detached HEAD, an integration branch,
+or an unspecified feature branch.
 
-Use a fast-forward-only merge from the target branch, then delete the merged local
-feature branch:
+### Worktrunk worktree
+
+Run the merge from the feature worktree:
 
 ```sh
-git switch <main-or-master>
+wt merge --no-commit --no-rebase <recorded-target-branch>
+```
+
+Both flags are required. `--no-commit` prevents Worktrunk from committing or
+squashing additional changes; `--no-rebase` preserves the prepared commit graph
+and requires the target to fast-forward. Never use plain `wt merge` here because
+its default squash and rebase behavior would rewrite the approved commits.
+
+Keep normal hooks enabled. If Worktrunk reports that project hooks require
+approval, stop and ask the user to run `wt config approvals add`; never bypass
+the gate with `--yes` or `--no-hooks`.
+
+On success, Worktrunk fast-forwards the target and removes the local feature
+worktree and branch. Run every subsequent command from the captured target
+worktree path because the feature path no longer exists. If merge or cleanup
+fails, do not force removal or rewrite history; preserve the remaining state and
+report exactly what completed.
+
+### In-place feature branch
+
+Use a fast-forward-only merge from the recorded target, then delete the merged
+local feature branch:
+
+```sh
+git switch <recorded-target-branch>
 git merge --ff-only <feature-branch>
 git branch -d <feature-branch>
 ```
 
-`--ff-only` belongs to `git merge`, not `git checkout`. The equivalent commands
-using the older checkout syntax are:
+Run the deletion only after the merge succeeds. Never force-delete a feature
+branch. If deletion fails after a successful merge, keep the merge and report the
+cleanup failure. If the merge cannot fast-forward, leave both branches unchanged
+and report that a merge commit or rebase would be required; do neither unless the
+user asks.
 
-```sh
-git checkout <main-or-master>
-git merge --ff-only <feature-branch>
-git branch -d <feature-branch>
-```
-
-Run the deletion only after the merge succeeds. Delete only the local feature
-branch; remote branch deletion requires separate user approval. Never force-delete
-a feature branch. If deletion fails after a successful merge, keep the merge and
-report the cleanup failure.
-
-If the merge cannot fast-forward, leave both branches unchanged and report that
-a merge commit or rebase would be required; do neither unless the user asks.
+Remote branch deletion always requires separate user approval.
