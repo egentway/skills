@@ -113,3 +113,15 @@ without entering design/history by accident; valid links alone do not prove good
 discovery. For installation or restructuring mechanics, use the separate
 [installation](installation.md), [initialization](initialization.md), or
 [migration](migration.md) guide only when that work is requested.
+
+## Explicit user-requested audits
+
+Only when the user explicitly requests a documentation audit, use the
+[audit guide](audit.md) to compare current guidance, design progress, and reference
+evidence with the implementation and exercise agent discovery. Present evidence
+and proposed corrections before any documentation edits, wait for user feedback,
+then refine and verify one agreed batch at a time.
+
+Ordinary consultation, code changes, or noticing drift do not invoke an audit.
+Continue maintaining the affected guides under the rules above; do not silently
+expand that work into a whole-tree review or audit checkpoint process.

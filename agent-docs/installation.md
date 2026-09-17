@@ -16,7 +16,7 @@ Installation supplies instructions, not a completed application guide or migrati
    add a second installed copy. When migrating an earlier installation, compare
    its contents, preserve intentional edits, and remove the superseded copy only
    after the new installation and root pointer are complete.
-3. Install these five files together: `SKILL.md`, `consultation.md`,
+3. Install these six files together: `SKILL.md`, `consultation.md`, `audit.md`,
    `installation.md`, `initialization.md`, and `migration.md`. Copy actual files
    from the supplied skill package, not absolute-home symlinks. Internal guide
    links stay relative to the skill root. References in project documentation,
@@ -74,7 +74,7 @@ this skill does not require an installer program.
 
 ## Check the result
 
-- The installed five files are complete and their skill-root references resolve.
+- The installed six files are complete and their skill-root references resolve.
   The root consultation pointer resolves from the project root, not the skill root.
 - Exactly one ordered marker pair exists. Text outside it is unchanged except for
   separately approved migration edits.
@@ -84,6 +84,10 @@ this skill does not require an installer program.
   duplicate block, copy, timestamp, or topic catalog.
 - A reader starting at `AGENTS.md` reaches consultation, then the task's index,
   without being directed to rerun setup.
+- An explicit user audit request reaches `audit.md`; ordinary consultation does
+  not initiate it. The audit requires evidence review before edits and user
+  feedback between refinement batches. Installing/updating the skill does not
+  itself authorize an audit.
 
 For an upgrade, compare the local package with the intended source after applying
 approved changes. Check docs for links that still assign maintenance policy to an
