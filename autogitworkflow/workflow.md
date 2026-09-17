@@ -104,12 +104,13 @@ or pushes.
 
 After substantial work is complete, verified, and committed on a feature branch,
 include a merge offer in the final plain-text response. Name the actual feature
-branch and the local target: prefer `main`, otherwise `master`. If neither exists,
-ask which target to use rather than inventing one.
+branch and the local target, and state that the merged feature branch will be
+deleted: prefer `main`, otherwise `master`. If neither exists, ask which target
+to use rather than inventing one.
 
 For example:
 
-> Would you like me to merge `feature/example` into `main`?
+> Would you like me to merge `feature/example` into `main` and delete it?
 
 Ask conversationally, without the Ask tool, structured-choice dialogs, or similar
 interactive question tools. Wait for explicit user approval before switching
