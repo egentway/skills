@@ -19,6 +19,17 @@ callers receive conflicting answers or unnecessary validation work accumulates.
 normalization, structural validity, and current-state eligibility. Determine
 whether one check merely repeats a guarantee already established by its input.
 
+Inspect scalar constraints as well as graph/reference rules. Follow a value from
+wire extraction through normalization, model construction, event construction,
+and owner admission. Identify the owner of requiredness, type validity, ranges,
+references, and current-state eligibility. Strict domain models may make adapter
+checks redundant, but retain checks needed before normalization: removing them
+must not turn malformed input into a valid default, sentinel, or unknown case.
+
+Include small boundary validators shared by sibling components. Compare their
+actual accepted/rejected inputs before declaring them the same rule. A shared
+function or type is justified only when it removes a real duplicate authority.
+
 **Direction:** prefer one owner per invariant. Keep boundary-specific checks where
 they protect genuinely different guarantees. Do not remove validation merely
 because the syntax is similar, or replace small duplication with a rules engine.
@@ -35,6 +46,10 @@ diagnostics identify the wrong cause or expose untrusted payloads.
 **Evidence:** identify each exception's actual producers and the caller's response.
 Probe classification with valid input and an isolated internal fault when useful.
 Check whether an exception list redundantly names subclasses of a broad parent.
+Inspect every handler branch for catch-and-reraise paths with no producer inside
+the protected region and obsolete translations left after responsibility moved.
+Establish producers before calling a branch redundant; distinguish unexpected
+implementation failures from expected input rejection.
 
 **Direction:** translate expected input errors at narrow boundaries; let unexpected
 failures reach their supervisor. Broad catches can be justified at resource owners
@@ -71,6 +86,10 @@ remember distant conditions to judge correctness.
 **Evidence:** identify the normal path and invariant behind each branch/flag.
 Measure size or nesting only to locate hotspots. Determine which complexity is
 required by the behavior and which is introduced by its representation.
+Look for flags and repeated scans that indirectly express membership, coverage,
+or ordering. Compare the implementation with a direct expression of that
+relationship, preserving semantics, ordering, and useful short-circuiting.
+A set-based rewrite is not inherently clearer or faster.
 
 **Direction:** prefer early rejection, visible domain steps, and direct invariant
 expressions. A linear field mapping or operation may be long without being hard
@@ -88,6 +107,9 @@ drift or correctness depends on incidental call order.
 **Evidence:** follow real entry points through construction, dependency supply,
 operation, and shutdown. Compare claimed ownership to actual callers. Check
 whether explicit overrides intentionally differ from default resolution.
+After moving responsibility, inspect both the new owner and former callers for
+default resolution, argument transformation, validation, or lifecycle work still
+active in both places.
 
 **Direction:** complete the ownership cutover and remove superseded paths. Keep
 necessary lifecycle ordering explicit rather than inventing automatic wiring.
@@ -106,6 +128,12 @@ representations require synchronization and can diverge.
 **Evidence:** identify what each abstraction protects and who consumes it. Separate
 external protocol representation from domain representation before declaring two
 models redundant. Establish present use rather than hypothetical reuse.
+Follow a representative value through the complete operation. Framework
+construction can repeat validation, conversion, copying, or traversal even when
+application code passes an existing immutable object. When uncertain, count
+invocations or transformations before claiming overhead. Observed repetition is
+not measured performance impact; do not introduce validation bypasses, caches,
+or parallel representations merely to eliminate a small repeated cost.
 
 **Direction:** retain abstractions that enforce an invariant, isolate a volatile
 boundary, or name a substantial domain operation. Remove those whose cost exceeds
@@ -124,6 +152,15 @@ that protect no observable contract.
 **Evidence:** ask what plausible bug would fail each assertion. Check whether a
 preceding conversion already guarantees the result. Where useful, use an isolated
 mutation probe to see whether removing the intended check still passes the case.
+
+Ask whether another invalid condition would still reject the fixture if the
+intended protection disappeared. Check whether an earlier serialization, copy,
+normalization, or mock already guarantees the asserted result; such an assertion
+may not exercise its claimed boundary.
+
+For diagnostics, distinguish contractual privacy or machine-readable fields from
+incidental prose. Prove sanitization and the required operational response rather
+than matching an entire human-readable sentence.
 
 **Direction:** make boundary cases otherwise valid and assert consumer-observable
 behavior. Preserve meaningful integration and failure tests. Do not add permanent

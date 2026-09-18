@@ -46,6 +46,19 @@ suite does not establish maintainability, and a test may pass because another
 invalid condition masks the intended failure. Inspect fixtures and assertions,
 not just test names or counts.
 
+### Bounded coverage check
+
+Before reporting, revisit the inspected boundaries for:
+
+- Rules enforced by more than one owner.
+- Repeated transformations or framework work.
+- Remnants at former owners after an integration change.
+- Tests unable to distinguish intended behavior from a plausible regression.
+
+This checks coverage of code already in scope; it does not authorize expanding
+the audit. A category may have no finding. Do not require a finding count or an
+exhaustive file-by-file checklist.
+
 ## Probe consequential uncertainty
 
 Use focused, deterministic probes when runtime evidence would materially change
@@ -80,6 +93,12 @@ For each finding include its source location/symbol, evidence, present
 consequence, recommended bounded simplification, and relevant uncertainty. Label
 static inference and fault injection explicitly. Rank by consequence, not stylistic
 preference, and consolidate symptoms sharing one structural cause.
+
+Consolidate related smaller observations beneath their owning finding or in a
+compact optional-simplifications section. Do not omit an evidence-backed
+observation merely because it is not a standalone defect. Keep speculative
+optimizations separate from recommended fixes, and state when observed repetition
+does not yet justify a change.
 
 Explain what should remain unchanged and which apparent repetition is justified.
 Do not recommend a framework, new model hierarchy, or broad rewrite to eliminate
