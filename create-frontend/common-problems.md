@@ -60,6 +60,40 @@ not just viewport breakpoints. Contain long values without silently losing meani
 **Exceptions:** touch targets, readability, grouping, and task emphasis can justify
 space. Dense does not mean tiny type, inaccessible controls, or compressed prose.
 
+## Unstable alignment across repeated items
+
+**Signals:** labels in successive rows start at different positions because
+preceding badges or other content vary in width; timestamps, values, or actions
+drift between rows; each row distributes space independently even though users
+need to compare the same fields down the list.
+
+**Why it matters:** the eye must repeatedly search for corresponding information.
+Locally tidy rows can still produce a ragged, difficult-to-scan collection.
+
+**Preferred correction:** identify the fields users scan or compare and give them
+stable alignment anchors across repeated items. Let flexible content absorb the
+remaining space without moving those anchors. A common arrangement puts compact
+metadata at the leading edge, flexible primary text in the middle, and actions at
+the trailing edge, but the reading task determines the actual order.
+
+For example, a variable-width category badge before an event name should not move
+the name's starting position from row to row. Reserve a consistent badge column
+across the collection or place the badge after the primary label. The badge itself
+can retain its natural width within that column. Prefer shared column sizing over
+padding individual labels or forcing all content to the same width. Separate
+per-row grids with content-sized columns do not necessarily align with each other.
+
+Align text starts, numeric ends or decimal positions, and repeated controls as
+appropriate to their meaning. Check representative short and long values,
+localization, wrapping, and panel resizing. Narrow layouts may regroup fields,
+but should preserve consistent scan anchors within that layout.
+
+**Exceptions:** prose, independent cards, and intentionally staggered compositions
+do not require tabular alignment. Variable-width content need not always be centered,
+nor fixed-width content always placed at the edges. Avoid brittle pixel widths,
+excessive empty columns, misleading truncation, or a changed reading order solely
+to achieve geometric symmetry.
+
 ## Rigid sidebars and panels
 
 **Signals:** a substantial inspector or navigation panel has one fixed width even
