@@ -1,8 +1,9 @@
 # Verification
 
-Verification has two parts that must not be confused. Checks the agent runs on its
-own are reported as results, not asked about. Only an action that needs the user's
-authorization, or has meaningful cost or side effects, is put to the user.
+Verification is the agent's work, reported as results, not put to the user for
+approval. That includes forward-tests, which run in a throwaway workspace outside the
+working tree and touch nothing else. Only an action that reaches beyond such a
+workspace, or has unusually large cost, is put to the user.
 
 ## Checks the agent runs
 
@@ -38,23 +39,29 @@ Correct gaps before delivery, remove any throwaway artifacts, and report which
 levels were performed. Distinguish structural checks, instruction walkthroughs,
 model exercises, and real harness invocation results.
 
-## Actions that need the user's authorization
+## Forward-testing
 
-For complex, risky, or gated skills, a forward-test is worth recommending: a fresh
+For complex, risky, or gated skills, run a forward-test without asking: a fresh
 subagent gets a realistic request, the skill, and the minimum artifacts, never the
 intended answer, in a throwaway workspace outside the working tree. Compare with a
 run without the skill when its value is in question. Fix only what the observed
-behavior supports.
+behavior supports. Afterwards confirm the workspace held all its writes, then remove
+it, and report the result and rough cost in the results list.
 
-Because it spawns an agent and costs tokens, ask first, in this form:
+## Actions that need the user's authorization
+
+Ask first only when a check would reach beyond a throwaway workspace: writing outside
+it, using credentials, the network, or a live system, or costing unusually much.
+Ask in this form:
 
 ```markdown
-Needs your OK: forward-test with a fresh subagent.
-Tests: whether the skill works from a bare request with no hints.
-Why: walkthroughs can't show what a cold reader would misunderstand.
-Cost: about 40k tokens and one agent. If skipped: only walkthroughs cover it.
-Recommend: run it, because this skill has an approval gate.
+Needs your OK: <the action>.
+Tests: <what it checks>.
+Why: <what the cheaper checks can't show>.
+Reaches beyond the temp workspace: <what, or "no, but cost is about X">.
+If skipped: <what coverage is lost>.
+Recommend: <run or skip, and why>.
 ```
 
-If the user declines, report it as "Not run" and continue. Do not ask about the
-checks in the previous section, and do not ask again in the same task.
+If the user declines, report it as "Not run" and continue. Do not ask again in the
+same task.

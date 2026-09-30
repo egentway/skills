@@ -103,9 +103,10 @@ using the policy in conventions.md.
 ## 6. Verify
 
 Run the checks in [verification.md](verification.md): structure, discovery, and
-behavior proportional to risk. They are the agent's work and are reported as results.
-Ask the user only for an action that needs authorization, such as a forward-test,
-using the ask format defined there. Correct gaps before delivery.
+behavior proportional to risk. They are the agent's work and are reported as results,
+including forward-tests in a throwaway workspace. Ask the user only for an action
+that reaches beyond such a workspace, using the ask format defined there. Correct
+gaps before delivery.
 
 ## 7. Commit and deliver
 
