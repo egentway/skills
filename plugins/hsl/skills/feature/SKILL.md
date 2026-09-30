@@ -5,10 +5,11 @@ description: >-
 disable-model-invocation: true
 ---
 
-Read the `workflows` skill and its running instructions, then follow this workflow.
-The user's request follows the command.
+Read [reading.md](reading.md) first (format 1.0), then follow this workflow. The
+user's request follows the command.
 
 ```yaml
+format: 1.0
 name: feature
 description: Plan, implement, and review a code change.
 steps:
