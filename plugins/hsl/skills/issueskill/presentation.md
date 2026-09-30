@@ -30,7 +30,9 @@ Gather every open decision into one message, not a drip of questions.
   destination ambiguity, and the extraction boundary are always questions when
   unsettled, never assumptions.
 - **Shortcut.** Tell the user they can reply "accept" to take every recommendation
-  in this message, or amend by number. "Accept" covers only this message's questions.
+  in this message, or amend by number. "Accept" covers only this message's numbered
+  questions. Assumed items stand unless the user vetoes them; accepting does not
+  confirm them separately.
 
 ```markdown
 Assumed (tell me if wrong): read-only, no commit; targets Claude Code, omp, Codex.

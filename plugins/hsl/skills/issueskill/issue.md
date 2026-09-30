@@ -51,7 +51,8 @@ the bundle from the directories under `<repository>/plugins/`:
 An explicit destination is not permission to create a missing repository. Surface
 unavailable destinations before writing. No configuration file or Nix integration
 is required. If an explicit destination is already a `skills/` directory, use it as
-given. The output is `<bundle>/skills/<skill-name>/`; if it already exists, ask
+given. An explicit destination that is a repository root goes through the same
+bundle lookup. The output is `<bundle>/skills/<skill-name>/`; if it already exists, ask
 whether to revise that skill or choose another name rather than overwriting it as
 a new package.
 

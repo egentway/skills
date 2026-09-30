@@ -129,7 +129,8 @@ committing fails, report the blocker rather than initializing a repository,
 discarding changes, or claiming completion. Do not bypass failing hooks.
 
 Include an equivalent, self-contained commit policy in generated skills'
-maintenance instructions so later procedure or catalogue edits follow it without
+maintenance instructions, in a few lines (commit verified changes, stage only that
+skill's files, do not push), so later procedure or catalogue edits follow it without
 requiring issueskill to be loaded. This policy concerns changes to the skill
 package, not application-code changes made or inspected during ordinary skill use.
 
