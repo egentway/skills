@@ -1,27 +1,20 @@
 # Presentation
 
-How issueskill talks to the user. The goal is that the user keeps control of the
+How issueskill's messages are shaped. The goal is that the user keeps control of the
 decisions that matter, spends little effort on them, and always knows what is
-happening and what is being asked. The proposal shape is adapted from a
-plan-review process: main path first, representative abridged excerpts, visible
-connections, a map of affected files, and an explicit approval question.
+happening and what is being asked.
 
-## Status block
-
-Open every message that needs the user's input with these four lines:
-
-```markdown
-**Where we are:** Step 2 of 7, choosing where the skill goes and how it activates.
-**Settled:** a changelog-from-diff skill; destination is the skills repository.
-**Need from you:** the two decisions below.
-**Next:** once you answer, I show the full proposal. Nothing is written yet.
-```
-
-Keep each line to one sentence. Progress-only messages may use just the first two.
+Present the proposal, and the decisions message below, using the `present-for-review`
+skill. If it is unavailable, present with the main path first, labeled excerpts, a
+file map, and an approval question. What a skill proposal must contain is listed in
+[issue.md](issue.md) step 3; the decisions message and the final report have their
+own formats here.
 
 ## Decisions message
 
-Gather every open decision into one message, not a drip of questions.
+Gather every open decision into one message, not a drip of questions. Open it with
+an orienting status block: where we are, what is settled, what is needed from the
+user, and what happens next.
 
 - **Assumed.** List what the brief, the conversation, or local conventions settle,
   as one line the user can veto. Infer only what is obvious; when in doubt, ask.
@@ -40,37 +33,6 @@ Assumed (tell me if wrong): read-only, no commit; targets Claude Code, omp, Code
 2. Activation: automatic or request-only? Recommend automatic (low-risk, read-only).
 Reply "accept" to take both recommendations, or change any number.
 ```
-
-## Proposal
-
-Present it in the conversation before creating files. Start with the main path: the
-capability, its inputs and exclusions, the activation policy and gates, and a short
-end-to-end invocation example. Then, per file:
-
-- **Responsibility:** what the file owns and why it is a separate file.
-- **Location:** the exact path, marked `+` new or `~` modified.
-- **Abridged excerpt:** proposed text, labeled as proposed, with omissions stated.
-  Show the parts that carry behavior: the description and frontmatter, routing
-  links, gates, and one representative procedure step. Not every line.
-- **Connection:** which file links to it, and when it is read.
-- **Consequential choice:** anything the user should evaluate.
-
-Also state the chosen bundle, the invocation metadata for each target harness, and
-where editable knowledge lives and how the user requests changes to it.
-
-A cohesive small skill gets a compact proposal: its frontmatter, the key
-instructions, the activation policy, and the verification plan. Skip the tree and
-connection notes when there is one file.
-
-End larger proposals with a brief tree of affected files:
-
-- `+` new file, `~` modified, `-` removed, `>` moved (show old and new paths)
-- a short **Intentionally untouched** list when revising an existing skill
-- the main risk, if there is one
-
-Then ask directly for approval, for example "Do you approve this, or would you like
-to change any of these boundaries or excerpts first?", and stop. When the user
-requests a change, update the excerpts and the tree together and ask again.
 
 ## Report
 

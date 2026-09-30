@@ -2,8 +2,8 @@
 
 Use these steps with [conventions.md](conventions.md). Creation from a brief and
 extraction from ongoing work share this process; only their starting evidence differs.
-Shape every message to the user as [presentation.md](presentation.md) describes, and
-run checks as [verification.md](verification.md) describes.
+Shape messages to the user as [presentation.md](presentation.md) describes, and run
+checks as [verification.md](verification.md) describes.
 
 ## 1. Recover the intended capability
 
@@ -70,10 +70,15 @@ authoring into a fixed questionnaire.
 
 ## 3. Present a reviewable proposal
 
-Present the proposal in the conversation before creating files, in the shape
-presentation.md defines: main path first, representative proposed excerpts, the
-bundle and invocation metadata for each target harness, where editable knowledge
-lives, and a map of affected files ending in an approval question.
+Present the proposal in the conversation before creating files, for the user's
+review and approval, as presentation.md describes. It must show the capability, its
+inputs and exclusions, the activation policy and any gates, and a short end-to-end
+invocation example. Per file it must show responsibility, path, a representative
+excerpt of the proposed text (the description, frontmatter, routing links, gates, one
+procedure step), and how it connects to the other files. It must also state the
+chosen bundle, the invocation metadata for each target harness, and where editable
+knowledge lives and how the user requests changes to it. A cohesive small skill gets
+a compact proposal.
 
 Split independently selected capabilities when useful. Do not split shared stages
 into separate workflows merely because intake differs. A cohesive small skill may

@@ -15,8 +15,8 @@ means produce the skill package, not install it or publish it remotely.
 ## Create or extract a skill
 
 Read [the authoring process](issue.md) and [the authoring conventions](conventions.md).
-The process reads [presentation.md](presentation.md) for how to shape messages to the
-user and [verification.md](verification.md) for the checks. Start from the user's
+The process reads [presentation.md](presentation.md) for how to present to the user
+and [verification.md](verification.md) for the checks. Start from the user's
 brief or the relevant activity in the current conversation.
 Do not activate merely because a process seems reusable.
 

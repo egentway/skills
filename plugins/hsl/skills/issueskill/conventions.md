@@ -92,7 +92,7 @@ Do not silently add findings to a catalogue during normal execution.
 
 ## Reviewable proposals
 
-The proposal shape and the other user-facing message formats live in
+How proposals and the other user-facing messages are presented lives in
 [presentation.md](presentation.md). Whatever the format, show actual proposed
 excerpts with their connections, identify recommendations and open choices, refine
 from feedback, and obtain approval before writing. Do not mistake a scope discussion
