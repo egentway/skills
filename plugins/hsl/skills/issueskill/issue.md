@@ -2,6 +2,8 @@
 
 Use these steps with [conventions.md](conventions.md). Creation from a brief and
 extraction from ongoing work share this process; only their starting evidence differs.
+Shape every message to the user as [presentation.md](presentation.md) describes, and
+run checks as [verification.md](verification.md) describes.
 
 ## 1. Recover the intended capability
 
@@ -53,36 +55,28 @@ given. The output is `<bundle>/skills/<skill-name>/`; if it already exists, ask
 whether to revise that skill or choose another name rather than overwriting it as
 a new package.
 
-Resolve scope and activation from the conversation and local conventions first.
-When activation is unclear, ask whether the produced skill should be request-driven,
-with automatic applicability as the default recommendation. Do not skip this question
-just because a default exists. Separately decide whether automatic activation needs
-an execution-confirmation gate; see conventions.md.
+Resolve scope and activation from the conversation and local conventions first, and
+record what they settle as assumptions the user can veto. When activation is unclear,
+ask whether the produced skill should be request-driven, recommending automatic
+applicability. Do not skip this question just because a default exists. Separately
+decide whether automatic activation needs an execution-confirmation gate; see
+conventions.md.
 
-Ask only questions that materially affect the skill. Use reasonable local conventions
-for routine details; do not turn authoring into a fixed questionnaire.
+Infer only what is obvious, and ask what materially affects the skill. Collect every
+open decision into one decisions message with recommendations, as presentation.md
+describes. Use reasonable local conventions for routine details; do not turn
+authoring into a fixed questionnaire.
 
 ## 3. Present a reviewable proposal
 
-Present the proposal in the conversation before creating files. Include:
-
-- The capability, outcome, inputs, exclusions, and extraction boundary.
-- The selected activation policy and any later approval gates.
-- A short end-to-end invocation example.
-- The resolved destination, the chosen bundle, and a tree of every proposed file.
-- The invocation metadata for each target harness (see conventions.md).
-- Each file's responsibility and abridged contents, including its important headings,
-  instructions, routing links, and connections to other files.
-- Where editable knowledge lives and how a user requests changes to it.
-- Consequential recommendations, unresolved choices, and planned verification.
-
-Show actual proposed instruction excerpts, not only descriptions of what files will
-contain. Label them as proposed and make omissions clear. Keep the proposal small
-enough to evaluate, but do not hide important gates or maintenance behavior.
+Present the proposal in the conversation before creating files, in the shape
+presentation.md defines: main path first, representative proposed excerpts, the
+bundle and invocation metadata for each target harness, where editable knowledge
+lives, and a map of affected files ending in an approval question.
 
 Split independently selected capabilities when useful. Do not split shared stages
 into separate workflows merely because intake differs. A cohesive small skill may
-need only SKILL.md; additional files must have a purpose.
+need only SKILL.md and a compact proposal; additional files must have a purpose.
 
 ## 4. Refine and obtain approval
 
@@ -108,45 +102,17 @@ using the policy in conventions.md.
 
 ## 6. Verify
 
-Verify at three levels and report which were performed.
-
-**Structure.** Run the validators that exist: `claude plugin validate <repository>`
-and `claude plugin validate <repository>/plugins/<bundle>`, and Codex's
-`quick_validate.py` if present. Otherwise check frontmatter parsing, the name/directory
-relationship, supporting-file links, and that the skill sits under a bundle's
-`skills/` directory.
-
-**Discovery.** Write about six prompts: three that should trigger the skill and three
-near-misses that should not. Judge the description against them and tighten it if it
-would misroute. For a request-driven skill, confirm where the harness allows that the
-skill is absent from the model-visible list (for Codex, `codex debug prompt-input`).
-Do not claim cross-harness enforcement from a field's presence alone.
-
-**Behavior, proportional to risk.** Exercise representative scenarios using the
-resulting instructions, not just the plan:
-
-- A normal invocation reaches the intended outcome or approval checkpoint.
-- An ambiguous input produces a focused question rather than a silent scope choice.
-- A gated workflow stops before execution when consent is absent or declined.
-- A request to update knowledge reaches its owning file without running the main task.
-
-Select scenarios applicable to the produced skill. For issueskill itself, cover both
-fresh creation and extraction, the activation question, destination and bundle
-ambiguity, and proposal approval before writes. For simple skills, a walkthrough of
-these scenarios is enough. For complex, risky, or gated skills, and when delegation is
-available and authorized, forward-test with a fresh subagent: give it a realistic
-request, the skill, and the minimum artifacts needed, never the intended answer, in a
-throwaway workspace outside the working tree. Compare with a run without the skill
-when its value is in question. Fix only what the observed behavior supports.
-
-Correct gaps before delivery and remove any throwaway verification artifacts.
+Run the checks in [verification.md](verification.md): structure, discovery, and
+behavior proportional to risk. They are the agent's work and are reported as results.
+Ask the user only for an action that needs authorization, such as a forward-test,
+using the ask format defined there. Correct gaps before delivery.
 
 ## 7. Commit and deliver
 
 After verification, commit the completed skill change using the policy in
 conventions.md. Keep separate skill changes in separate commits.
 
-Report the affected files, verification performed, and commit hash. If committing
-is blocked, report the completed file changes and the remaining blocker explicitly.
-Do not claim the skill is installed or reliably enforced by a harness that was not
-exercised.
+Finish with the results-list report from presentation.md: affected files, checks run
+and not run, commit hash, and open items. If committing is blocked, report the
+completed file changes and the remaining blocker explicitly. Do not claim the skill
+is installed or reliably enforced by a harness that was not exercised.

@@ -92,14 +92,11 @@ Do not silently add findings to a catalogue during normal execution.
 
 ## Reviewable proposals
 
-Show every proposed file, its responsibility, and abridged instruction content.
-Preserve important sections, links, gates, and maintenance paths in the excerpts.
-Show how the files work together, not a disconnected set of outlines. State the
-chosen bundle and the invocation metadata for each target harness.
-
-Identify recommendations and open choices. Refine from feedback and obtain approval
-before writing. Do not mistake a scope discussion or a presentation improvement for
-approval of the complete proposal.
+The proposal shape and the other user-facing message formats live in
+[presentation.md](presentation.md). Whatever the format, show actual proposed
+excerpts with their connections, identify recommendations and open choices, refine
+from feedback, and obtain approval before writing. Do not mistake a scope discussion
+or a presentation improvement for approval of the complete proposal.
 
 ## Portability
 
