@@ -6,9 +6,9 @@ accumulate new rules. Keep reusable lessons, not a diary of individual tasks.
 
 ## Discovery and scope
 
-Use SKILL.md with YAML frontmatter containing `name` and `description`. Match the
-name to the skill directory. Describe when the skill applies, not just its topic.
-State the intended outcome and boundaries in the instructions.
+Use SKILL.md with YAML frontmatter containing `name` (matching the directory) and
+`description`. Describe when the skill applies, not just its topic, and state the
+intended outcome and boundaries in the instructions.
 
 Recover existing user decisions before asking questions. Clearly distinguish agreed
 requirements, observed techniques, and new recommendations. Do not elevate incidental
@@ -17,12 +17,16 @@ behavior or an agent's mistakes into permanent policy.
 ## Functional decomposition
 
 Split functionality into separate files when users can select one capability without
-needing the others. Keep SKILL.md as a discoverable router to those capabilities,
-with direct relative links and clear conditions for reading each file.
-
-Keep cohesive procedures together. Do not create files solely for every section,
-duplicate shared instructions, or make an agent load unrelated capabilities. A small
+needing the others. Keep SKILL.md as a discoverable router with direct relative links
+and clear conditions for reading each file. Keep cohesive procedures together; a small
 single-purpose skill can remain entirely in SKILL.md.
+
+## Writing instructions
+
+Explain why a rule matters instead of using shouting-case MUST or NEVER. State the
+outcome, non-obvious context, and real constraints. Keep SKILL.md short and move
+mode-specific detail into linked files. Correct an observed failure narrowly rather
+than adding a universal rule.
 
 ## Activation and approval
 
@@ -33,17 +37,23 @@ Choose activation deliberately for each produced skill:
    applicability by default. The default does not replace asking when unclear.
 3. State the selected policy in the proposal.
 
-For request-driven skills, add this YAML field and state the request-only boundary
-in the instructions:
+For request-driven skills, state the request-only boundary in the instructions and
+set the invocation metadata for each harness the skill targets:
 
-```yaml
-disable-model-invocation: true
-```
+- Claude Code and omp: `disable-model-invocation: true` in the frontmatter. omp
+  normalizes this form, and the skill stays reachable through `/skill:<name>`.
+- Codex: `agents/openai.yaml` containing the following. Explicit `$<name>`
+  invocation still works. Preserve other fields if the file already exists, and
+  create the file only for this purpose.
 
-For automatically applicable skills, omit the field. This metadata is supported by
-some harnesses, including Claude Code; do not assume every loader enforces it.
-Verify support where possible and report any unverified enforcement. Never invent
-an alternative metadata field and claim it provides a working gate.
+  ```yaml
+  policy:
+    allow_implicit_invocation: false
+  ```
+
+For automatically applicable skills, omit both. Verify enforcement where the harness
+is available and report anything unverified. Never invent a metadata field and claim
+it provides a working gate.
 
 Automatic applicability and execution consent are separate decisions. When a skill
 requires confirmation, especially on automatic matching:
@@ -84,21 +94,21 @@ Do not silently add findings to a catalogue during normal execution.
 
 Show every proposed file, its responsibility, and abridged instruction content.
 Preserve important sections, links, gates, and maintenance paths in the excerpts.
-Show how the files work together, not a disconnected set of outlines.
+Show how the files work together, not a disconnected set of outlines. State the
+chosen bundle and the invocation metadata for each target harness.
 
 Identify recommendations and open choices. Refine from feedback and obtain approval
 before writing. Do not mistake a scope discussion or a presentation improvement for
 approval of the complete proposal.
 
-## Verification and portability
-
-Check package structure and exercise relevant behavior, including scope ambiguity,
-consent boundaries, and direct knowledge maintenance. Distinguish structural checks,
-instruction walkthroughs, model exercises, and real harness invocation results.
+## Portability
 
 Keep supporting links relative to the skill root. Do not embed machine-specific
 paths in portable instructions when the process can resolve them. For issueskill,
 use the destination lookup in issue.md; do not add a configuration system.
+
+Distinguish structural checks, instruction walkthroughs, model exercises, and real
+harness invocation results when reporting verification; issue.md defines the levels.
 
 Installation, pushing, and remote publication require separate authorization.
 Do not add scripts, dependencies, tests, or documentation merely to make a skill

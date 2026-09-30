@@ -28,7 +28,8 @@ an agent performed it. Preserve relevant corrections and known limitations.
 ## 2. Resolve the destination and consequential questions
 
 Use an explicit destination supplied by the user for this invocation. Otherwise,
-check `~/skills` and `~/Projects/skills`, expanding `~` to the current user's home:
+locate the skills repository by checking `~/skills` and `~/Projects/skills`,
+expanding `~` to the current user's home:
 
 - Exactly one is an existing directory: use it.
 - Both are directories: resolve their real paths. If they name the same directory,
@@ -36,11 +37,21 @@ check `~/skills` and `~/Projects/skills`, expanding `~` to the current user's ho
 - Neither is a directory: ask for a destination. Do not silently create a repository
   or use the current project instead.
 
+Skills live in bundles: `<repository>/plugins/<bundle>/skills/<skill-name>/`. Pick
+the bundle from the directories under `<repository>/plugins/`:
+
+- Exactly one bundle: use it.
+- Several: recommend the best fit for the skill's purpose and ask which to use.
+- None, or the skill fits no existing bundle: propose a new bundle in the proposal.
+  Creating one means its manifests and a `marketplace.json` entry, so it needs the
+  same approval as any other file. Do not create a bundle silently.
+
 An explicit destination is not permission to create a missing repository. Surface
 unavailable destinations before writing. No configuration file or Nix integration
-is required. The output is `<repository>/<skill-name>/`; if it already exists,
-ask whether to revise that skill or choose another name rather than overwriting it
-as a new package.
+is required. If an explicit destination is already a `skills/` directory, use it as
+given. The output is `<bundle>/skills/<skill-name>/`; if it already exists, ask
+whether to revise that skill or choose another name rather than overwriting it as
+a new package.
 
 Resolve scope and activation from the conversation and local conventions first.
 When activation is unclear, ask whether the produced skill should be request-driven,
@@ -58,7 +69,8 @@ Present the proposal in the conversation before creating files. Include:
 - The capability, outcome, inputs, exclusions, and extraction boundary.
 - The selected activation policy and any later approval gates.
 - A short end-to-end invocation example.
-- The resolved destination and a tree of every proposed file.
+- The resolved destination, the chosen bundle, and a tree of every proposed file.
+- The invocation metadata for each target harness (see conventions.md).
 - Each file's responsibility and abridged contents, including its important headings,
   instructions, routing links, and connections to other files.
 - Where editable knowledge lives and how a user requests changes to it.
@@ -96,11 +108,22 @@ using the policy in conventions.md.
 
 ## 6. Verify
 
-Check frontmatter parsing, the name/directory relationship, and supporting-file links.
-Where the target harness is available, check that it recognizes the intended invocation
-metadata. Do not claim cross-harness enforcement from a field's presence alone.
+Verify at three levels and report which were performed.
 
-Exercise representative scenarios using the resulting instructions, not just the plan:
+**Structure.** Run the validators that exist: `claude plugin validate <repository>`
+and `claude plugin validate <repository>/plugins/<bundle>`, and Codex's
+`quick_validate.py` if present. Otherwise check frontmatter parsing, the name/directory
+relationship, supporting-file links, and that the skill sits under a bundle's
+`skills/` directory.
+
+**Discovery.** Write about six prompts: three that should trigger the skill and three
+near-misses that should not. Judge the description against them and tighten it if it
+would misroute. For a request-driven skill, confirm where the harness allows that the
+skill is absent from the model-visible list (for Codex, `codex debug prompt-input`).
+Do not claim cross-harness enforcement from a field's presence alone.
+
+**Behavior, proportional to risk.** Exercise representative scenarios using the
+resulting instructions, not just the plan:
 
 - A normal invocation reaches the intended outcome or approval checkpoint.
 - An ambiguous input produces a focused question rather than a silent scope choice.
@@ -108,9 +131,13 @@ Exercise representative scenarios using the resulting instructions, not just the
 - A request to update knowledge reaches its owning file without running the main task.
 
 Select scenarios applicable to the produced skill. For issueskill itself, cover both
-fresh creation and extraction, the activation question, destination ambiguity, and
-proposal approval before writes. Walkthroughs or isolated model exercises can expose
-instruction gaps; distinguish them from actual harness invocation tests.
+fresh creation and extraction, the activation question, destination and bundle
+ambiguity, and proposal approval before writes. For simple skills, a walkthrough of
+these scenarios is enough. For complex, risky, or gated skills, and when delegation is
+available and authorized, forward-test with a fresh subagent: give it a realistic
+request, the skill, and the minimum artifacts needed, never the intended answer, in a
+throwaway workspace outside the working tree. Compare with a run without the skill
+when its value is in question. Fix only what the observed behavior supports.
 
 Correct gaps before delivery and remove any throwaway verification artifacts.
 
