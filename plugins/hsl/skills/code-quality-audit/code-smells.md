@@ -140,6 +140,39 @@ boundary, or name a substantial domain operation. Remove those whose cost exceed
 their present role. Do not replace removable helpers with another comprehensive
 schema hierarchy merely to make the implementation look declarative.
 
+## Duplicated class hierarchies
+
+**Signals:** a second family of classes mirrors an existing model tree, with
+corresponding nested entities, repeated fields and constraints, and field-by-field
+conversion methods. A request for a typed boundary grows into a parallel hierarchy;
+objects retain both representations or privately cache their converted counterpart.
+This applies to composition trees as well as inheritance hierarchies.
+
+**Consequence:** each domain change requires synchronized edits across model
+families and translators. Validation ownership becomes unclear, objects undergo
+repeated construction, and readers must reconstruct which representation is
+authoritative and why both survive.
+
+**Evidence:** trace one complete payload from ingress to its actual consumers.
+Identify independent operations, lifetimes, contracts, or serialization needs that
+require each representation. Different field names or wire formats alone do not
+establish the need for a complete second class hierarchy. Compare against direct
+boundary normalization into existing models, retaining only small request-specific
+payloads where they carry additional meaning. Inspect validation and error
+classification during conversion, not just the public class declarations.
+
+Separate intentional independent representations from accidental duplication:
+public projections, separately evolving external schemas, security boundaries,
+and persistence models can justify distinct types. Establish that these needs
+exist now; do not infer them from layer names or hypothetical reuse.
+
+**Direction:** remove mirrored model families when narrow boundary translation and
+existing domain models suffice. Preserve required external validation and any
+genuinely independent contract. Update consumers, serializers, tests, and documented
+payload shapes together; do not replace the hierarchy with another generic mapper,
+force shared inheritance, or leak external naming into domain models just to
+reduce the class count.
+
 ## Misleading verification
 
 **Signals:** fixtures violate several invariants while claiming to test one;

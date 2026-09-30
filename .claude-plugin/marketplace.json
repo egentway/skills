@@ -1,0 +1,12 @@
+{
+  "name": "hsl",
+  "description": "heygent's skill lab",
+  "owner": { "name": "heygent" },
+  "plugins": [
+    {
+      "name": "hsl",
+      "source": "./plugins/hsl",
+      "description": "heygent's skill lab: planning, workflow, code-quality and documentation skills"
+    }
+  ]
+}
