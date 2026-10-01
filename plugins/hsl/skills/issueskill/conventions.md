@@ -99,8 +99,10 @@ bodies.
 
 Lay the body out in this order:
 
-1. An opening: one line on what the skill does, then the reading block below,
-   copied as is with its markers.
+1. An opening: one line on what the skill does; if the skill also takes requests
+   that are not a run, such as maintaining its knowledge, one line routing them to
+   a section after the steps; then the reading block below, copied as is with its
+   markers.
 2. `# Steps`, with one `## <Verb>` per step. A step is mostly references
    (`skill:`, `[Name]`, operations), with at most one short line of instruction.
    Put longer instructions in a section after the steps and refer to it. If other
