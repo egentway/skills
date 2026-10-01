@@ -102,7 +102,8 @@ Lay the body out in this order:
 1. An opening: one line on what the skill does, then the reading block below,
    copied as is with its markers.
 2. `# Steps`, with one `## <Verb>` per step: a line of instruction, then a list of
-   what the step reads and ends with.
+   what the step reads and ends with. If other sections follow, put a horizontal
+   rule (`---`, with a blank line before it) after the last step.
 3. `# Operations`, if any: reusable actions named as verbs, such as `## Approve`.
    Each one says when it takes effect.
 4. Free-form sections for supporting material the steps refer to.
@@ -110,12 +111,13 @@ Lay the body out in this order:
 The reading block:
 
 ```markdown
-<!-- workflow-instructions 1 -->
+<!-- workflow-instructions 2 -->
 This is a workflow skill. Work through the steps in order; the user may redo, skip,
-or reorder them. Under each step, read everything listed before acting:
-`skill: <name>` through the skill mechanism, and `[Name]` as the section with that
-heading, or the link defined for it relative to this skill's folder. Say what you
-read in each step.
+or reorder them. Only the headings under `# Steps` are steps; any other section is
+read when a step refers to it. Under each step, read everything listed before
+acting: `skill: <name>` through the skill mechanism, and `[Name]` as the section
+with that heading, or the link defined for it relative to this skill's folder. Say
+what you read in each step.
 <!-- workflow-instructions end -->
 ```
 
