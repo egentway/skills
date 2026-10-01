@@ -125,6 +125,10 @@ The reading paragraph:
 - There is no format version. Each workflow skill carries its own reading
   paragraph, so changing this convention means updating those skills by hand.
 
+When the skill needs execution consent (see Activation and approval), SKILL.md
+holds only the gate. The layout above goes in `workflow.md`, which SKILL.md reads
+once consent is given, so nothing of the run is read before the user agrees.
+
 ## Reviewable proposals
 
 How proposals and the other user-facing messages are presented lives in
