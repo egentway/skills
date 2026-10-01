@@ -5,26 +5,36 @@ description: >-
 disable-model-invocation: true
 ---
 
-Read [reading.md](reading.md) first (format 1.0), then follow this workflow. The
-user's request follows the command.
+Plan, implement, and review a code change. The user's request follows the command.
 
-```yaml
-format: 1.0
-name: feature
-description: Plan, implement, and review a code change.
-steps:
-  - setup:
-      - skill/cognitive-budget-coding
-  - plan:
-      - Plan the change and present it, including the file impact.
-      - skill/implementation-planning
-      - skill/present-for-review
-      - action/approval
-  - implement:
-      - Implement the approved plan; surface consequential choices as they appear.
-      - skill/feedback-driven-execution
-  - review:
-      - Audit the change and present the findings; do not fix without approval.
-      - skill/code-quality-audit
-      - action/approval
-```
+This is a workflow skill. Work through the steps in order; the user may redo, skip,
+or reorder them. Under each step, read everything listed before acting:
+`skill: <name>` through the skill mechanism, and `[Name]` as the section with that
+heading, or the link defined for it relative to this skill's folder. Say what you
+read in each step.
+
+# Steps
+
+## Setup
+- skill: cognitive-budget-coding
+
+## Plan
+Plan the change and present it, including the file impact.
+- skill: implementation-planning
+- skill: present-for-review
+- [Approve]
+
+## Implement
+Implement the approved plan; surface consequential choices as they appear.
+- skill: feedback-driven-execution
+
+## Audit
+Audit the change and present the findings; do not fix without approval.
+- skill: code-quality-audit
+- [Approve]
+
+# Operations
+
+## Approve
+Once the step's work is done, present what it produced, then stop and wait for the
+user. Their response applies to this gate only.
