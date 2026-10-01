@@ -13,8 +13,8 @@ Treat either of these as explicit consent to enable the workflow:
   `/skill:autogitworkflow`.
 - The user explicitly asks to use or enable the automatic Git workflow.
 
-In either case, skip the activation prompt. Read `workflow.md` in this skill's
-directory before making repository edits and follow it for the rest of the task.
+In either case, skip the activation prompt. Read [workflow.md](workflow.md) before
+making repository edits and follow it for the rest of the task.
 
 When this skill matches the task automatically instead, ask:
 
@@ -25,6 +25,6 @@ When this skill matches the task automatically instead, ask:
 > the work plan, and offers fast-forward-only merges followed by local cleanup.
 
 - If the user declines, perform the requested work normally. Do not load
-  `workflow.md` or take Git actions on this skill's behalf.
-- If the user agrees, read `workflow.md` before making repository edits and
-  follow it for the rest of the task.
+  [workflow.md](workflow.md) or take Git actions on this skill's behalf.
+- If the user agrees, read [workflow.md](workflow.md) before making repository
+  edits and follow it for the rest of the task.
