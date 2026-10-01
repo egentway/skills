@@ -23,49 +23,29 @@ what you read in each step.
 # Steps
 
 ## Bound
-Use the boundary named by the user. Otherwise, treat the repository as the
-boundary and follow its entry points into concrete subsystems rather than
-sampling files at random.
+- [Boundary]
 
 ## Investigate
-Recover each suspicious part's current reason from the current tree: callers and
-references, runtime entry points, tests, configuration, schemas, docs,
-generated-code boundaries, and nearby implementations of the same job. Determine
-whether an outlier is chronological drift or an intentional bounded-context
-difference.
-
-Use targeted archaeology when the current tree suggests a replacement, migration,
-rollout, or unexplained compatibility path. Inspect the history that introduced
-the candidate, the likely replacement, and the surrounding convention. History
-explains intent; current callers and contracts decide whether that intent is
-still live.
+Recover why each suspicious part exists.
+- [Current reasons]
+- [Archaeology]
 - [Vice catalog]
 
 ## Cluster
-Build evidence-backed candidate clusters from the vice catalog. Group items that
-appear to belong to the same old implementation, service, migration, or competing
-convention. If the survey finds no evidence-backed candidates, say so, name the
-areas and evidence checked, and skip the remaining steps. Do not manufacture
-cleanup to justify the run.
+Group candidates by theme, or stop if there are none.
+- [Clustering]
 - [Candidate evidence]
 
 ## Review
-Present one compact approval checkpoint per theme. Ask only what the tree and
-targeted history cannot settle. Do not edit a cluster before its answer.
+One checkpoint per theme; no edits before its answer.
 - [Approval checkpoint]
 - [Approve]
 
 ## Cut
-Apply only the approved cleanup. Remove the whole obsolete path: callers,
-adapters, flags, configuration, tests, fixtures, docs, dependencies, and exports
-that exist solely for it. Migrate live callers to the surviving convention and
-leave one path, without compatibility shims or aliases unless the user explicitly
-preserves them.
+- [Cutting]
 
 ## Verify
-Exercise the affected behavior and run the narrow project checks that cover the
-cut. Report approved removals, verification evidence, and untouched candidates
-whose purpose remains unresolved.
+- [Verification]
 
 ---
 
@@ -74,6 +54,50 @@ whose purpose remains unresolved.
 ## Approve
 Once the step's work is done, present what it produced, then stop and wait for
 the user. Their response applies to this gate only.
+
+# Boundary
+
+Use the boundary named by the user. Otherwise, treat the repository as the
+boundary and follow its entry points into concrete subsystems rather than
+sampling files at random.
+
+# Current reasons
+
+Recover each suspicious part's current reason from the current tree: callers and
+references, runtime entry points, tests, configuration, schemas, docs,
+generated-code boundaries, and nearby implementations of the same job. Determine
+whether an outlier is chronological drift or an intentional bounded-context
+difference.
+
+# Archaeology
+
+Use targeted archaeology when the current tree suggests a replacement, migration,
+rollout, or unexplained compatibility path. Inspect the history that introduced
+the candidate, the likely replacement, and the surrounding convention. History
+explains intent; current callers and contracts decide whether that intent is
+still live.
+
+# Clustering
+
+Build evidence-backed candidate clusters from the vice catalog. Group items that
+appear to belong to the same old implementation, service, migration, or competing
+convention. If the survey finds no evidence-backed candidates, say so, name the
+areas and evidence checked, and skip the remaining steps. Do not manufacture
+cleanup to justify the run.
+
+# Cutting
+
+Apply only the approved cleanup. Remove the whole obsolete path: callers,
+adapters, flags, configuration, tests, fixtures, docs, dependencies, and exports
+that exist solely for it. Migrate live callers to the surviving convention and
+leave one path, without compatibility shims or aliases unless the user explicitly
+preserves them.
+
+# Verification
+
+Exercise the affected behavior and run the narrow project checks that cover the
+cut. Report approved removals, verification evidence, and untouched candidates
+whose purpose remains unresolved.
 
 # Vice catalog
 
@@ -141,7 +165,8 @@ and repeated comparable implementations over chronology alone.
 
 # Approval checkpoint
 
-Present related candidates together:
+Ask only what the tree and targeted history cannot settle. Present related
+candidates together:
 
 ```markdown
 ### <old path, migration, service, or convention>
