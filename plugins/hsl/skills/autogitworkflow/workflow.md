@@ -1,11 +1,13 @@
 Run the user's coding task inside an automatic Git workflow: a clean feature
 workspace, commits planned with the work, and a fast-forward merge offer at the end.
 
+<!-- workflow-instructions 1 -->
 This is a workflow skill. Work through the steps in order; the user may redo, skip,
 or reorder them. Under each step, read everything listed before acting:
 `skill: <name>` through the skill mechanism, and `[Name]` as the section with that
 heading, or the link defined for it relative to this skill's folder. Say what you
 read in each step.
+<!-- workflow-instructions end -->
 
 [preparing]: preparing.md
 [proposing]: proposing.md
