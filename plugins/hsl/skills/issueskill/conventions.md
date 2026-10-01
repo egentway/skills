@@ -90,6 +90,41 @@ name, recognition signals, consequences, and exceptions or counterexamples. Avoi
 bare prohibitions that confuse a useful inspection signal with an automatic defect.
 Do not silently add findings to a catalogue during normal execution.
 
+## Workflow skills
+
+A workflow skill runs named steps that draw on other skills, usually with user
+gates. Its body is both the overview of the run and its instructions. Use this
+layout only when sequencing steps is the skill's job; other skills keep free-form
+bodies.
+
+Lay the body out in this order:
+
+1. An opening: one line on what the skill does, then the reading paragraph below,
+   copied as is.
+2. `# Steps`, with one `## <Verb>` per step: a line of instruction, then a list of
+   what the step reads and ends with.
+3. `# Operations`, if any: reusable actions named as verbs, such as `## Approve`.
+   Each one says when it takes effect.
+4. Free-form sections for supporting material the steps refer to.
+
+The reading paragraph:
+
+> This is a workflow skill. Work through the steps in order; the user may redo,
+> skip, or reorder them. Under each step, read everything listed before acting:
+> `skill: <name>` through the skill mechanism, and `[Name]` as the section with
+> that heading, or the link defined for it relative to this skill's folder. Say
+> what you read in each step.
+
+- Refer to a section by its exact heading text: `[Approve]`. Every heading name
+  must be unique in the file, including the group headings.
+- Refer to another file with a shortcut reference link and its definition:
+  `[what to flag]` with `[what to flag]: criteria.md#what-to-flag`.
+- Name only model-invocable skills, by bare name.
+- Read a skill that should shape the whole run in the first step.
+- Workflow skills are usually request-only; set activation as above.
+- There is no format version. Each workflow skill carries its own reading
+  paragraph, so changing this convention means updating those skills by hand.
+
 ## Reviewable proposals
 
 How proposals and the other user-facing messages are presented lives in
