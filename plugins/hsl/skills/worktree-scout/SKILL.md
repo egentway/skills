@@ -12,65 +12,85 @@ cleanup. Wherever the work splits into independent items, fan them out to
 parallel subagents, then verify and integrate their results yourself; work
 directly when the harness has no subagents or the items are few.
 
-<!-- workflow-instructions 2 -->
-This is a workflow skill. Work through the steps in order; the user may redo, skip,
-or reorder them. Only the headings under `# Steps` are steps; any other section is
-read when a step refers to it. Under each step, read everything listed before
-acting: `skill: <name>` through the skill mechanism, and `[Name]` as the section
-with that heading, or the link defined for it relative to this skill's folder. Say
-what you read in each step.
+<!-- workflow-instructions 5 -->
+This is a workflow skill. Its steps are the `##` headings under `# Steps`. When
+SKILL.md lists several workflows under `# Workflows`, read only the file of the
+one that fits the request; its steps are the run. Work through the steps in
+order; the user may redo, skip, or reorder them. When a step names another
+section, file, or skill, read it then. A bold name, such as **Approve**, runs that
+operation from `# Operations` or that workflow from `# Workflows`.
+
+When starting a workflow, record its steps by name in your task-list tool before
+the first step; load or enable the tool if needed. Reuse this run's entries when
+resuming, and update them as the run progresses. If the harness provides no
+task-list tool, continue without one.
+
+Track the outermost workflow. A called workflow keeps the caller's step in
+progress; show its current inner step in that entry's description, or its label
+if descriptions are unavailable. Do not add a second list of inner steps. Keep
+a step in progress while its Gate awaits the user; complete it only after its
+output and gate are settled.
 <!-- workflow-instructions end -->
-
-# Steps
-
-## Survey
-- [Running the scout]
-
-## Report
-- [Purpose evidence]
-- [Report format]
-
-## Clean up
-Only when the survey found duplicate candidates.
-- [Duplicate question]
-- [Approve]
-
----
 
 # Operations
 
 ## Approve
-Once the step's work is done, present what it produced, then stop and wait for
-the user. Their response applies to this gate only.
 
-# Running the scout
+Present what was produced up to this point, then stop and wait for the user. Their
+response applies to this gate only.
 
-Resolve `scripts/scout_worktrees.py` relative to this skill directory and
-run it once:
+# Steps
 
-```sh
-python3 scripts/scout_worktrees.py --repo <current-worktree>
-```
+## Survey
 
-Use the context-mode execution tool when the JSON may be large. The script
-performs the complete read-only Git survey: authoritative porcelain
-inventory, baseline selection, Worktrunk metadata, local state, divergence,
-pairwise shared ancestry, and clean duplicate detection.
+Collect repository and worktree state through the read-only survey script.
 
-Treat successful script output as the evidence source. Do not regenerate its
-Git command sequence. If it returns `error`, report that repository survey
-as unavailable; do not fetch, switch branches, invoke hooks, or alter a
-worktree.
+- **Input:** the current repository or worktree.
+- **Output:** the script's JSON survey.
+- **Stop if:** the script returns `error`; report the survey as unavailable and
+  end the run without changing any worktree.
 
-# Purpose evidence
+1. Resolve `scripts/scout_worktrees.py` relative to this skill directory and run
+   it once:
 
-Turn the returned records into the report below. Determine purpose only from
-`description`, Worktrunk metadata, head subject, branch-only commits, and
-changed paths. Prefix a conclusion not directly stated by a description or
-metadata with **Inference:**. Leave purpose unspecified for empty or
-unavailable worktrees.
+   ```sh
+   python3 scripts/scout_worktrees.py --repo <current-worktree>
+   ```
 
-# Report format
+2. Use the context-mode execution tool when the JSON may be large. The script
+   performs the complete read-only Git survey: authoritative porcelain
+   inventory, baseline selection, Worktrunk metadata, local state, divergence,
+   pairwise shared ancestry, and clean duplicate detection.
+
+3. Treat successful script output as the evidence source. Do not regenerate its
+   Git command sequence. On a survey error, do not fetch, switch branches, invoke
+   hooks, or alter a worktree.
+
+## Report
+
+Explain each worktree's purpose, divergence, local state, and relationships.
+
+- **Input:** the JSON survey from Survey.
+- **Output:** a re-entry brief covering every worktree and any duplicate candidates.
+
+1. Determine purpose only from `description`, Worktrunk metadata, head subject,
+   branch-only commits, and changed paths. Prefix a conclusion not directly
+   stated by a description or metadata with **Inference:**. Leave purpose
+   unspecified for empty or unavailable worktrees.
+
+2. Present the returned records using Report format below. Put unfinished
+   operations and local changes ahead of ordinary divergence. Include full and
+   abbreviated HEADs, commit subject/date, all changed-path categories, branch
+   descriptions, and relevant Worktrunk metadata. State a missing baseline
+   explicitly so it is never mistaken for a clean divergence.
+
+3. For each `shared_ancestry` relationship, report its peer branch/path, shared
+   base SHA/subject, each side's commits beyond that base, exclusive commit
+   counts, and the diff summary when it clarifies the split. A clearly named
+   group may cover several relationships; distinguish branches that merely
+   forked independently from the baseline.
+
+### Report format
 
 ```markdown
 ## Worktree scout — <repository>
@@ -89,23 +109,21 @@ unavailable worktrees.
 - `<sha>`: <clean members>; proposed survivor and redundant paths.
 ```
 
-Put unfinished operations and local changes ahead of ordinary divergence.
-Include full and abbreviated HEADs, commit subject/date, all changed-path
-categories, branch descriptions, and relevant Worktrunk metadata. State a
-missing baseline explicitly so it is never mistaken for a clean divergence.
+## Clean up
 
-For each `shared_ancestry` relationship, report its peer branch/path, shared
-base SHA/subject, each side's commits beyond that base, exclusive commit counts,
-and the diff summary when it clarifies the split. A clearly named group may
-cover several relationships; distinguish branches that merely forked
-independently from the baseline.
+Let the user decide which duplicate candidates to remove.
 
-# Duplicate question
+- **Input:** the `duplicate_candidates` groups from Report.
+- **Output:** the user's choice and only the local cleanup they approved.
+- **Gate:** **Approve** before removing a worktree or deleting a branch.
+- **Stop if:** the survey found no duplicate candidates.
 
-For every `duplicate_candidates` group, preserve the primary worktree as the
-presumed survivor, name exact redundant paths, and ask:
+1. For every group, identify the members by exact path and branch. Preserve the
+   primary worktree; when it belongs to the group, use it as the presumed
+   survivor. When the group contains only linked worktrees, ask which member to
+   keep. State the exact worktrees and any local branches proposed for deletion.
 
-> These clean worktrees point to `<sha>`: `<path> (<branch>)`, … . Keep the
-> primary worktree and clean up the redundant worktrees?
-
-Wait for the user's choice before removing a worktree or deleting a branch.
+2. Present the cleanup proposal and run **Approve**. If the user declines, leave
+   the worktrees and branches intact. If they approve, carry out only their
+   chosen removals; permission to remove a worktree does not by itself authorize
+   deleting its branch.
