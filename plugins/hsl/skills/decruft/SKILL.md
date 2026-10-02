@@ -25,22 +25,27 @@ operation from `# Operations` or that workflow from `# Workflows`.
 # Operations
 
 ## Approve
+
 Present what was produced up to this point, then stop and wait for the user. Their
 response applies to this gate only.
 
 # Steps
 
 ## Bound
+
 Settle where to look.
+
 Use the boundary named by the user. Otherwise, treat the repository as the
 boundary and follow its entry points into concrete subsystems rather than
 sampling files at random.
 
 ## Investigate
+
 Recover why each suspicious part exists, looking for the signals in
 [catalogues/vice-catalogue.md](catalogues/vice-catalogue.md).
 
 ### Current reasons
+
 Recover each suspicious part's current reason from the current tree: callers and
 references, runtime entry points, tests, configuration, schemas, docs,
 generated-code boundaries, and nearby implementations of the same job. Determine
@@ -48,6 +53,7 @@ whether an outlier is chronological drift or an intentional bounded-context
 difference.
 
 ### Archaeology
+
 Use targeted archaeology when the current tree suggests a replacement, migration,
 rollout, or unexplained compatibility path. Inspect the history that introduced
 the candidate, the likely replacement, and the surrounding convention. History
@@ -55,7 +61,9 @@ explains intent; current callers and contracts decide whether that intent is
 still live.
 
 ## Cluster
+
 Group candidates by theme, or stop if there are none.
+
 Build evidence-backed candidate clusters. Group items that appear to belong to
 the same old implementation, service, migration, or competing convention. If the
 survey finds no evidence-backed candidates, say so, name the areas and evidence
@@ -63,6 +71,7 @@ checked, and skip the remaining steps. Do not manufacture cleanup to justify the
 run.
 
 ### Candidate evidence
+
 For every candidate, establish:
 
 - **Location:** exact paths and symbols in the cluster.
@@ -83,14 +92,17 @@ Newer code is not automatically the convention; prefer explicit project rules
 and repeated comparable implementations over chronology alone.
 
 ## Review
+
 Present one theme at a time and **Approve** each; make no edits before its answer.
 Ask only what the tree and targeted history cannot settle.
 
 ### Checkpoint format
+
 Present related candidates together:
 
 ```markdown
 ### <old path, migration, service, or convention>
+
 - **Found:** <exact symbols and present cost>
 - **Current reach:** <callers, contracts, and external-use risk>
 - **Likely history:** <replacement or migration evidence>
@@ -99,6 +111,7 @@ Present related candidates together:
 ```
 
 ### Questions
+
 Use the structured question tool for focused questions such as:
 
 - What present constraint still requires `<candidate>`? Was it retained for
@@ -114,14 +127,18 @@ Recommend a disposition when the evidence supports one. Offer **remove**,
 concrete outcomes; do not turn the checkpoint into an open-ended code tour.
 
 ## Cut
+
 Apply only the approved cleanup.
+
 Remove the whole obsolete path: callers, adapters, flags, configuration, tests,
 fixtures, docs, dependencies, and exports that exist solely for it. Migrate live
 callers to the surviving convention and leave one path, without compatibility
 shims or aliases unless the user explicitly preserves them.
 
 ## Verify
+
 Show the cut works and report what remains.
+
 Exercise the affected behavior and run the narrow project checks that cover the
 cut. Report approved removals, verification evidence, and untouched candidates
 whose purpose remains unresolved.
