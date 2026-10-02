@@ -1,8 +1,8 @@
 # Initialize purpose-based documentation
 
 Use for an authorized greenfield or genuinely undocumented project. If useful
-application docs or design/history already exist, use [migration](migration.md)
-instead of overwriting them. Read [consultation](consultation.md) for the shared
+application docs or design/history already exist, use [migration](03-workflow-migrate.md)
+instead of overwriting them. Read [consultation](01-consultation.md) for the shared
 purpose, status, freshness, and archival rules.
 
 ## Ground the guide in the project
@@ -54,7 +54,7 @@ Current guides never depend on reading those records to explain today's code.
 
 ## Install the consultation entry point
 
-Follow [installation](installation.md) to put the full skill in the project and
+Follow [installation](05-workflow-install.md) to put the full skill in the project and
 add the single delimited consultation pointer to root `AGENTS.md`. Do not copy the
 consultation rules into `AGENTS.md` or turn this generic skill into the project's
 application-topic catalog. Keep repository-specific engineering instructions

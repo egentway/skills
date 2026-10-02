@@ -23,11 +23,11 @@ to the target project root; do not write application docs into the source packag
 
 | Task | Read |
 | --- | --- |
-| Find application context or maintain docs while changing code | [Consultation](consultation.md) |
-| Install/update the project-local skill and root pointer | [Installation](installation.md) |
-| Establish docs for a new or genuinely undocumented project | [Initialization](initialization.md), then its installation step |
-| Reorganize existing guidance, proposals, and research | [Migration](migration.md), then its installation step |
-| Explicit user request to audit documentation against implementation and evidence | [Audit](audit.md), with evidence review before edits and feedback between refinement batches |
+| Find application context or maintain docs while changing code | [Consultation](01-consultation.md) |
+| Install/update the project-local skill and root pointer | [Installation](05-workflow-install.md) |
+| Establish docs for a new or genuinely undocumented project | [Initialization](02-workflow-initialize.md), then its installation step |
+| Reorganize existing guidance, proposals, and research | [Migration](03-workflow-migrate.md), then its installation step |
+| Explicit user request to audit documentation against implementation and evidence | [Audit](04-workflow-audit.md), with evidence review before edits and feedback between refinement batches |
 
 Consultation is the routine path. Do not run initialization, migration, or an
 audit merely because the skill was loaded. Audit mode is exclusively

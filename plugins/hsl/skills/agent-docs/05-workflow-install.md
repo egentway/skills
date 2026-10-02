@@ -1,8 +1,8 @@
 # Install or update the project-local skill
 
 Use for authorized installation or upgrade, including the installation step of
-[initialization](initialization.md) or [migration](migration.md). Ordinary readers
-use [consultation](consultation.md). Skill-internal links resolve from the skill
+[initialization](02-workflow-initialize.md) or [migration](03-workflow-migrate.md). Ordinary readers
+use [consultation](01-consultation.md). Skill-internal links resolve from the skill
 root; destinations such as `.agents/skills/` refer to the target project root.
 Installation supplies instructions, not a completed application guide or migration.
 
@@ -16,8 +16,9 @@ Installation supplies instructions, not a completed application guide or migrati
    add a second installed copy. When migrating an earlier installation, compare
    its contents, preserve intentional edits, and remove the superseded copy only
    after the new installation and root pointer are complete.
-3. Install these six files together: `SKILL.md`, `consultation.md`, `audit.md`,
-   `installation.md`, `initialization.md`, and `migration.md`. Copy actual files
+3. Install these six files together: `SKILL.md`, `01-consultation.md`,
+   `02-workflow-initialize.md`, `03-workflow-migrate.md`, `04-workflow-audit.md`,
+   and `05-workflow-install.md`. Copy actual files
    from the supplied skill package, not absolute-home symlinks. Internal guide
    links stay relative to the skill root. References in project documentation,
    including `AGENTS.md`, use project-root-relative targets.
@@ -44,7 +45,7 @@ Use these literal, standalone HTML comment markers in the root `AGENTS.md`:
 ## Documentation
 
 For repository work, first read the installed
-[documentation consultation guide](.agents/skills/agent-docs/consultation.md).
+[documentation consultation guide](.agents/skills/agent-docs/01-consultation.md).
 Follow its purpose-specific index routing and maintenance rules.
 <!-- docs-organization:end -->
 ```
@@ -84,7 +85,7 @@ this skill does not require an installer program.
   duplicate block, copy, timestamp, or topic catalog.
 - A reader starting at `AGENTS.md` reaches consultation, then the task's index,
   without being directed to rerun setup.
-- An explicit user audit request reaches `audit.md`; ordinary consultation does
+- An explicit user audit request reaches `04-workflow-audit.md`; ordinary consultation does
   not initiate it. The audit requires evidence review before edits and user
   feedback between refinement batches. Installing/updating the skill does not
   itself authorize an audit.

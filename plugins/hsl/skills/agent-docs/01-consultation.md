@@ -111,13 +111,13 @@ compatibility stubs. Preserve unrelated repository instructions and confidential
 material boundaries. Check that a fresh reader can find the requested edit owner
 without entering design/history by accident; valid links alone do not prove good
 discovery. For installation or restructuring mechanics, use the separate
-[installation](installation.md), [initialization](initialization.md), or
-[migration](migration.md) guide only when that work is requested.
+[installation](05-workflow-install.md), [initialization](02-workflow-initialize.md), or
+[migration](03-workflow-migrate.md) guide only when that work is requested.
 
 ## Explicit user-requested audits
 
 Only when the user explicitly requests a documentation audit, use the
-[audit guide](audit.md) to compare current guidance, design progress, and reference
+[audit guide](04-workflow-audit.md) to compare current guidance, design progress, and reference
 evidence with the implementation and exercise agent discovery. Present evidence
 and proposed corrections before any documentation edits, wait for user feedback,
 then refine and verify one agreed batch at a time.

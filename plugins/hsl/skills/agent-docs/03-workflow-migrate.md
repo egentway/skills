@@ -1,8 +1,8 @@
 # Migrate existing documentation
 
 Use for an authorized documentation reorganization. Read
-[consultation](consultation.md) for purpose/status/freshness rules and
-[installation](installation.md) for the project-local skill and root pointer.
+[consultation](01-consultation.md) for purpose/status/freshness rules and
+[installation](05-workflow-install.md) for the project-local skill and root pointer.
 Keep the main editing path easy to review; a move-only pass is insufficient when
 individual documents mix implementation, proposals, and historical evidence.
 
@@ -68,7 +68,7 @@ that it is not implemented. Keep scope and policy distinct from runtime guarante
 ## Install, connect, and remove the old path
 
 Install the complete skill and the bounded consultation pointer using
-[installation](installation.md). Keep the organization/consultation policy in the
+[installation](05-workflow-install.md). Keep the organization/consultation policy in the
 installed guide, not duplicated in `AGENTS.md`. Retain unrelated instructions
 outside the managed section. Project-specific indexes own topic catalogs.
 
