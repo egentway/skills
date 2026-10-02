@@ -10,13 +10,15 @@ Map an agreed plan onto this repository as a connected implementation the user
 approves before any code is written. Deciding what to build happens before this
 skill; this skill settles how it fits.
 
-<!-- workflow-instructions 3 -->
+<!-- workflow-instructions 4 -->
 This is a workflow skill. Its steps are the `##` headings under `# Steps`. When
 SKILL.md lists several workflows under `# Workflows`, read only the file of the
 one that fits the request; its steps are the run. Work through the steps in
 order; the user may redo, skip, or reorder them. When a step names another
 section, file, or skill, read it then. A bold name, such as **Approve**, runs that
-operation from `# Operations` or that workflow from `# Workflows`.
+operation from `# Operations` or that workflow from `# Workflows`. If you have a
+task-list tool, including one you must load or enable first, add the steps to
+it by name and keep it current.
 <!-- workflow-instructions end -->
 
 # Operations
