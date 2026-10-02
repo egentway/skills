@@ -9,22 +9,44 @@ description: >-
 
 # Code-quality audit
 
-Produce evidence-backed findings and bounded simplifications. Do not refactor
-while auditing or add an unsolicited audit to ordinary implementation work.
+Produce evidence-backed findings and bounded simplifications. Apply to requested
+audits or critical reviews; do not add unsolicited audits to ordinary implementation.
+An audit authorizes inspection and appropriate isolated probes, not production edits,
+permanent tests, dependency installation, commits, or deployment. Fixes require
+separate approval. Respect repository instructions, access controls, private-data
+boundaries, and any narrower user scope. No additional activation prompt is required.
+For criteria edits, use the direct route under Edit inspection criteria.
 
-## Choose the requested capability
+<!-- workflow-instructions 5 -->
+This is a workflow skill. Its steps are the `##` headings under `# Steps`. When
+SKILL.md lists several workflows under `# Workflows`, read only the file of the
+one that fits the request; its steps are the run. Work through the steps in
+order; the user may redo, skip, or reorder them. When a step names another
+section, file, or skill, read it then. A bold name, such as **Approve**, runs that
+operation from `# Operations` or that workflow from `# Workflows`.
 
-- Audit code: read [review.md](review.md), then consult the relevant criteria in
-  [code-smells.md](code-smells.md).
-- Add, revise, or remove inspection criteria: edit
-  [code-smells.md](code-smells.md) without running an audit.
-- Change the audit procedure: update [review.md](review.md); update this entry
-  point only if scope or routing changes.
+When starting a workflow, record its steps by name in your task-list tool before
+the first step; load or enable the tool if needed. Reuse this run's entries when
+resuming, and update them as the run progresses. If the harness provides no
+task-list tool, continue without one.
 
-This skill is automatically applicable to tasks calling for this kind of audit;
-no additional activation prompt is required. An audit authorizes inspection and
-appropriate isolated probes, not production edits, permanent tests, dependency
-installation, commits, or deployment. Obtain separate approval before fixes.
+Track the outermost workflow. A called workflow keeps the caller's step in
+progress; show its current inner step in that entry's description, or its label
+if descriptions are unavailable. Do not add a second list of inner steps. Keep
+a step in progress while its Gate awaits the user; complete it only after its
+output and gate are settled.
+<!-- workflow-instructions end -->
 
-Do not silently add findings to the catalogue. Respect repository instructions,
-access controls, private-data boundaries, and any narrower user scope.
+# Workflows
+
+- **Audit** — read [01-workflow-audit.md](01-workflow-audit.md) for a requested
+  code-quality review.
+
+---
+
+# Edit inspection criteria
+
+Add, revise, or remove criteria in [catalogues/code-smells.md](catalogues/code-smells.md)
+without running an audit. Do not silently add ordinary findings.
+For procedure changes, edit 01-workflow-audit.md; update this entry point when scope
+or routing changes.
