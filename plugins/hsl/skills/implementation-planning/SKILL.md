@@ -1,246 +1,148 @@
 ---
 name: implementation-planning
 description: >-
-  Turn a prior discussion, source study, or agreed design into an implementation
-  plan the user reviews and approves before any implementation begins.
+  Map an agreed plan onto the repository: where each part lives, how the parts
+  connect, in what order the work lands, and how each step is proven. Use once
+  the idea is settled, before implementation; the user approves the result.
 ---
 
-# Implementation planning
+Map an agreed plan onto this repository as a connected implementation the user
+approves before any code is written. Deciding what to build happens before this
+skill; this skill settles how it fits.
 
-Make a plan the user can evaluate as a connected implementation, not a list of
-promises. Show what each part does, where it lives, and how control and data pass
-between parts.
+<!-- workflow-instructions 3 -->
+This is a workflow skill. Its steps are the `##` headings under `# Steps`. When
+SKILL.md lists several workflows under `# Workflows`, read only the file of the
+one that fits the request; its steps are the run. Work through the steps in
+order; the user may redo, skip, or reorder them. When a step names another
+section, file, or skill, read it then. A bold name, such as **Approve**, runs that
+operation from `# Operations` or that workflow from `# Workflows`.
+<!-- workflow-instructions end -->
 
-This is a working draft. Refine it through observed planning and implementation
-feedback; do not present an untried process as validated practice.
+# Operations
 
-## Working contract
+## Approve
 
-- Plan first. Do not implement until the user approves the plan.
-- Carry forward the user's decisions, terminology, constraints, and exclusions.
-  A reference catalogue is evidence, not approval to implement every capability.
-- When the work has obvious, coherent task boundaries, give each unit a separate
-  reviewable plan. Keep tightly coupled changes together; do not force a split.
-- The plan is design content: its code excerpts are proposed, not edits already
-  made. Present the finished plan using the `present-for-review` skill. If it is
-  unavailable, present the plan with the main path first, labeled excerpts, a file
-  map, and an approval question. A request to revise the plan is not approval to
-  implement.
-- Treat implementation complexity as review feedback, not merely an internal
-  concern. Surface meaningful growth while the user can still influence it, and
-  carry unresolved concerns into the final handoff.
+Present what was produced up to this point, then stop and wait for the user. Their
+response applies to this gate only.
 
-## 1. Ground the scope and repository boundaries
+# Steps
 
-Before drafting:
+## Ground
 
-1. Recover the relevant discussion and distinguish agreed requirements,
-   recommendations, unresolved choices, and historical or superseded designs.
+Recover what was agreed and inspect the code it lands in.
+
+- **Input:** the prior discussion, source study, or agreed design; the repository.
+- **Output:** the observable outcome, its exclusions, and the parts of the
+  repository the change touches.
+
+1. Recover the relevant discussion. Distinguish agreed requirements,
+   recommendations, unresolved choices, and superseded designs. Carry forward the
+   user's decisions, terminology, constraints, and exclusions; a reference
+   catalogue is evidence, not approval to implement every capability.
+
 2. Inspect the current entry points, public interfaces, composition, ownership,
-   configuration, tests, and documentation needed for this change. Follow the
-   repository's source-navigation and reference-checking rules. Do not assume
-   previous prose or remembered APIs still describe the checkout.
+   configuration, tests, and documentation the change needs. Follow the
+   repository's source-navigation rules. Do not assume earlier prose or
+   remembered APIs still describe the checkout.
+
 3. State the observable outcome and the explicit exclusions. Name meaningful
    limits such as volatile state, offline-only operation, unsupported inputs,
    missing integrations, or lack of hardware verification.
-4. Resolve choices through established conventions when possible. If materially
-   different scopes remain plausible, ask a focused scope question before
-   designing their interfaces. Recommend an option and explain its tradeoff.
-5. Identify unavailable contracts or evidence. Do not hide missing protocol,
+
+4. Resolve choices through established conventions. If materially different
+   scopes remain plausible, ask one focused scope question with a recommendation
+   before designing their interfaces. Do not turn routine naming into a
+   questionnaire, and do not silently narrow the request to the easiest slice.
+
+5. Name unavailable contracts or evidence. Do not hide missing protocol,
    hardware, or product requirements behind invented adapters or placeholder APIs.
 
-Do not turn routine naming and local implementation choices into a questionnaire.
-Conversely, do not silently narrow the user's request to the easiest slice.
+## Divide
 
-### Divide obvious units of work before drafting
+Split the work into units the user can evaluate separately, when such units are
+obvious.
 
-Look for distinct outcomes the user can evaluate separately, not merely different
-files, layers, or implementation steps. When those units are obvious, present
-separately titled task plans rather than one undifferentiated walkthrough. If the
-change is one cohesive unit, keep one plan.
+- **Input:** the outcome and touched parts from Ground.
+- **Output:** one or more units, each with its outcome, exclusions, and
+  dependencies on the others.
 
-Preserve the full agreed scope. Division must not quietly defer a requested unit
-or turn it into an unspecified follow-up.
+Look for distinct outcomes, not different files, layers, or implementation
+steps. If the change is one cohesive unit, keep one. Division must not quietly
+defer a requested unit or turn it into an unspecified follow-up.
 
-Each task plan is a complete plan: its own scope and exclusions, main path,
-connections, implementation sequence, verification, and planned file impact. A task
-heading over a checklist is not a separate plan. Shared context and contracts may be
-explained once and referenced explicitly rather than copied into every plan.
+- Keep a behavior change with the callers, tests, and documentation that make it
+  complete.
+- Units may depend on one another; name the prerequisite and the interface or
+  result it supplies.
+- For a shared interface or file, name which unit introduces the contract, which
+  units consume or change it, and where their integration is verified.
+- If a split needs temporary shims, broken intermediate states, or repeated
+  explanations of inseparable behavior, keep that work in one unit.
 
-Keep the boundaries honest:
+## Design
 
-- Keep a behavior change with the callers, tests, and documentation needed to
-  make it complete. Do not split those into separate tasks merely by file type.
-- Units may depend on one another; separate review does not imply independent
-  execution. Name the prerequisite and the interface or result it supplies.
-- For shared interfaces or files, identify which unit introduces the contract,
-  which units consume or change it, and where their integration is verified.
-- If a proposed split requires temporary shims, broken intermediate states, or
-  repeated explanations of inseparable behavior, keep that work in one plan.
+Work out how each unit fits the existing code.
 
-Present all task plans for review unless the user asks for a staged discussion.
-Do not stop after outlining the first unit. Separate plans do not themselves
-require separate documents, branches, commits, or agents; follow any enabled
-workflow for those decisions.
+- **Input:** the units from Divide.
+- **Output:** for each unit, its parts, where they live, and how control and data
+  pass between them.
 
-For small-to-medium tasks, generally plan to do the work directly rather than
-delegate it to a subagent. Task division is for reviewability, not an automatic
-agent assignment. Delegate only when there is a concrete benefit, such as
-substantial independent work that can genuinely run in parallel, and that benefit
-outweighs the handoff, coordination, and integration overhead. Do not delegate a
-bounded task merely because a subagent is available. Respect explicit user
-requests and applicable repository rules about delegation.
+1. Start from the real entry point and the user-visible result, then the code
+   that connects the parts, then its collaborators. Several parts may live in one
+   existing file; do not create a file or abstraction only to give a part a home.
 
-## 2. Design content a code plan must contain
+2. Define new APIs as intentional contracts with named owners and consumers.
+   Ground existing APIs in source; do not assume a framework method exists
+   because it would make the sketch convenient.
 
-Name the real entry point and the user-visible result. Show the connecting code
-early, for example the application composition or main operation that ties the
-components together, then its collaborators. Several parts may live in one existing
-file; do not create a file or abstraction merely to give each part a home. Include
-each repository root when the work spans projects.
+3. Follow the repository's architecture, not a structure imposed by this skill.
 
-Retain the information that makes the design reviewable:
+4. Trace one successful operation and one meaningful rejection or failure
+   through the design, and check that:
 
-- Public types, function signatures, significant fields, and return semantics.
-- Dependency direction and resource construction/cleanup.
-- The order of validation, decisions, mutation, and downstream work.
-- Important accepted, rejected, pending, or failed outcomes, where applicable.
-- Concrete call sites and argument flow across the proposed boundaries.
+   - required state has a clear owner and a visible acquisition path;
+   - composition actually supplies the dependencies consumers need;
+   - a changed public interface includes its affected callers and tests;
+   - a delayed reaction cannot decide whether an earlier operation was valid.
+     Where events are used, distinguish input receipt, accepted change,
+     delivery, and external acknowledgement.
 
-New APIs are allowed: defining them is part of the plan. Make them intentional,
-coherent proposed contracts, with named owners and consumers. Existing APIs must
-be grounded in source. Do not assume a framework method exists because it would
-make the sketch convenient.
+## Sequence
 
-Avoid empty bodies and magical helpers that conceal the central work. If a helper
-is the substantive operation, show its structure or describe its precise invariant
-and result. An abridged plan is not permission to ship stubs, fake fallbacks, or
-unimplemented branches.
+Order each unit's work so every step can be proven.
 
-Before finishing the draft, trace at least one successful operation and one
-meaningful rejection/failure through the design. Check that:
+- **Input:** the designs from Design; the repository's verification rules.
+- **Output:** a compact implementation sequence for each unit.
 
-- Signatures, names, arguments, and result types agree across the plan.
-- Required state has a clear owner and a visible acquisition path.
-- Composition actually supplies the dependencies that consumers need.
-- A changed public interface includes its affected callers and tests.
-- A delayed reaction cannot accidentally decide whether an earlier operation
-  was valid. Where events are used, distinguish input receipt, accepted change,
-  delivery, and external acknowledgement according to the project's contracts.
+Each step names the behavior it delivers, any real dependency on earlier steps,
+and the command, scenario, or focused test that will demonstrate it.
 
-Use the repository's architecture, not a universal framework imposed by this
-skill. Do not encode one project's module or event design as a requirement for
-unrelated projects.
+Distinguish planned verification from checks already run during investigation,
+and name the hardware, services, credentials, or input contracts that stronger
+claims would need. Include affected existing tests and worthwhile regression
+cases; do not add tests that only assert the sketch's wiring. Include the
+documentation, configuration, and packaging changes the work actually requires;
+do not invent migrations, compatibility layers, or version bumps.
 
-## 3. Connect implementation order to proof
+## Present
 
-Give a compact implementation sequence. Each step names:
+Show the plan and settle what is approved.
 
-- The behavior it delivers.
-- Any real dependency on earlier steps.
-- The command, scenario, or focused test that will demonstrate it.
+- **Input:** the units, designs, and sequences.
+- **Output:** the plan in the conversation, and the units the user approved.
+- **Gate:** **Approve** before any implementation.
 
-Verification must match the changed surface and repository rules. Distinguish
-planned verification from checks actually executed during investigation. Name
-hardware, services, credentials, or input contracts required for stronger claims.
+1. Present the plan as present-for-review describes. For divided work, name the
+   units the approval question covers.
 
-Include affected existing tests and worthwhile new regression cases. Do not add
-tests merely to assert the sketch's wiring or source text. Include documentation,
-configuration, and packaging consequences where the change actually requires them.
-Do not invent migrations, compatibility layers, version bumps, or extra machinery.
+2. A request to revise is not approval: revise the affected parts and present
+   them again.
 
-## 4. Cover the planned impact
+3. Approval of some units covers only those. Implement an approved unit only
+   when its prerequisites are available or also approved, and keep the others
+   visible as pending.
 
-The plan's file impact covers production code, tests, documentation,
-configuration/build changes, and required package markers; do not hide those under
-an unexplained directory. Mark new test and document filenames as proposed when the
-plan is still selecting them. Call out the main integration risk, such as a
-signature change, package move, persistence boundary, or external contract. For
-divided work, annotate shared files with the task plans that affect them.
-
-## 5. Approval
-
-For divided work, name the task plans covered by the approval question. The user
-may approve the set or a named subset; approval of one does not approve the rest.
-Implement only approved units whose prerequisites are already available or also
-approved. Keep unapproved units visible as pending, not silently dropped.
-
-Present the plan in the conversation unless the user requests a file or repository
-rules require a planning artifact. This skill does not itself authorize creating
-design documents, running a Git workflow, committing, or installing dependencies.
-
-## 6. Implement against the plan and refine the process
-
-After approval, follow the repository's implementation and verification rules.
-Use the plan as the agreed contract, not a reason to ignore new evidence.
-
-- Resolve routine details autonomously using local conventions.
-- Carry the direct-execution default above into implementation. Separate approved
-  task plans do not by themselves justify handing each task to a subagent.
-- Surface consequential changes before they spread through callers or schemas.
-  Explain the discovered seam, viable choices, recommendation, and impact on the
-  plan. Obtain approval when the change alters the agreed behavior or boundary.
-- Do not conceal a broken integration behind wrappers, duplicated state, implicit
-  ordering, or special-case fallbacks.
-- At delivery, distinguish actual changes and exercised behavior from the plan.
-  Explain meaningful deviations and remaining verification limits.
-
-### Check complexity as the implementation takes shape
-
-An approved sketch may turn into code that is harder to understand than the plan
-suggested. Watch for long classes or methods, deep nesting, proliferating state
-flags, duplicated ownership, wrapper chains, and custom machinery that overlaps
-with a framework's responsibilities. These are inspection signals, not automatic
-defects or fixed line-count limits.
-
-Evaluate the implementation, not just its public interface. A two-method helper
-can hide a substantial state machine. Explain which requirements create the
-complexity and whether the abstraction removes work or merely moves it out of
-sight. Do not call complexity necessary or minimal without evaluating plausible
-alternatives.
-
-**During implementation:**
-
-- Report a meaningful complexity hotspot when it becomes concrete, especially
-  when a user-approved change to a requirement, boundary, dependency, or code
-  shape could simplify it.
-- Name the file/symbol, the mechanism that grew, and its maintenance or
-  correctness cost. Distinguish complexity required by the contract from
-  complexity introduced by the chosen implementation.
-- Keep the checkpoint small: show the relevant structure or ownership split,
-  state what is still working, and recommend whether to continue provisionally,
-  simplify locally, or reconsider the boundary.
-- Ask before a consequential change spreads. A bounded, understood concern need
-  not stop implementation; a correctness problem or unresolved integration hack
-  must not be deferred merely to preserve momentum.
-- Do not add abstractions, split files, or compress code solely to improve a size
-  metric. Judge whether the reader has less to reconstruct afterward.
-
-**At delivery:**
-
-- Report material concerns that remain, including those not worth interrupting
-  implementation for. Lack of a mid-task checkpoint is not a reason to omit them.
-- State the hotspot, why it exists, what was verified, and what remains a design
-  judgment. Identify the next useful review boundary rather than offering a vague
-  warning that the code is "complex."
-- Carry forward any provisional acceptance explicitly. Approval to try an
-  implementation does not establish that its resulting design is satisfactory.
-- Keep behavioral proof separate from design confidence: passing checks do not
-  establish maintainability, and a small API does not establish simple internals.
-
-Do not manufacture a complexity concern or a mandatory status paragraph when
-nothing meaningful emerged. The purpose is timely, concrete feedback, not
-ceremony or a claim that the implementation is the simplest possible.
-
-### Refine the process from observed feedback
-
-When the user wants this process refined, use concrete feedback and observed
-implementation outcomes. Ask which excerpts made review easier, which connections
-were missing, whether the impact predicted the actual result, and where approval
-failed to settle an important choice. Add reusable lessons, not project-specific
-architecture or one-off incidents. Do not claim a successful outcome before it
-has been observed.
-
-Use applicable repository and workflow instructions alongside this skill. This
-skill supplies what a code plan must contain, not a competing engineering or Git
-policy.
+Keep the plan in the conversation unless the user asks for a file or the
+repository requires one. This skill does not authorize design documents, a Git
+workflow, commits, or installing dependencies.
