@@ -71,11 +71,30 @@ requires confirmation, especially on automatic matching:
 Invocation of issueskill starts authoring, not writing. Its proposal-approval gate
 remains in effect even though the user explicitly invoked it.
 
+## File layout
+
+Give every supporting file a two-digit index, even when the files do not form a
+sequence: a fixed reading order tells a reader where to start and keeps the outline
+stable. A file that holds a workflow, with its own `# Steps`, also takes the
+`workflow-` prefix and the workflow's verb: `02-workflow-initialize.md` for
+**Initialize**. SKILL.md keeps its name and comes first.
+
+When a sequence exists, number in that order. Otherwise number in the order the
+entry point lists the files: the default or most frequent workflow first, then the
+others, then files that mainly serve other files. The entry point lists them in
+index order. `scripts/` and `agents/` hold tooling and stay unnumbered.
+
+Numbered files are the skill's stable part: the procedure and its rules, changed
+deliberately. Collections meant to grow through frequent edits, such as a
+code-smell catalogue, go in `catalogues/` with descriptive names and no index.
+Entries can then be added without touching the procedure, and the procedure reads
+without the entries.
+
 ## Process and editable knowledge
 
 Separate a procedure from knowledge that benefits from independent maintenance:
-for example, `review.md` for review steps and `code-smells.md` for review criteria.
-Use descriptive Markdown filenames; no universal catalogue schema is required.
+for example, review steps in SKILL.md or `01-review.md`, and review criteria in
+`catalogues/code-smells.md`. No universal catalogue schema is required.
 
 Make ownership and maintenance discoverable:
 
@@ -97,38 +116,43 @@ gates. Its body is both the overview of the run and its instructions. Use this
 layout only when sequencing steps is the skill's job; other skills keep free-form
 bodies.
 
-Lay the body out in this order:
+Lay SKILL.md out in this order:
 
 1. An opening: one line on what the skill does; if the skill also takes requests
-   that are not a run, such as maintaining its knowledge, one line routing them to
-   a section after the steps; then the reading block below, copied as is with its
-   markers.
-2. `# Steps`, with one `## <Verb>` per step. A step is mostly references
-   (`skill:`, `[Name]`, operations), with at most one short line of instruction.
-   Put longer instructions in a section after the steps and refer to it. If other
-   sections follow, put a horizontal rule (`---`, with a blank line before it)
-   after the last step.
-3. `# Operations`, if any: reusable actions named as verbs, such as `## Approve`.
-   Each one says when it takes effect.
-4. Free-form sections for supporting material the steps refer to.
+   that are not a run, such as maintaining its catalogue, one line routing them to
+   their file; then the reading block below, copied as is with its markers.
+2. `# Operations`, if any: short actions named as verbs, such as `## Approve`.
+   Define one only when it recurs across steps, workflows, or skills; anything
+   used once stays in its step. A step runs an operation by writing its name in
+   bold where it takes effect, in a sentence that says when.
+3. `# Steps`, with one `## <Verb>` per step. Open each step with a one-line
+   purpose, then give its instructions. Split a long step into `###` parts.
+4. If supporting sections follow, a horizontal rule (`---`, with a blank line
+   before it), then those sections. A section belongs outside the steps only when
+   several steps read it; otherwise its content stays in its step. A collection
+   that grows goes in `catalogues/` instead (see File layout).
+
+A skill with several workflows puts `# Workflows` in SKILL.md in place of
+`# Steps`: one line per workflow with its bold verb, its file, and when it
+applies. Each `NN-workflow-<verb>.md` file holds a `# Steps` laid out as above,
+without the opening or the reading block. Operations are defined only in SKILL.md.
+A step runs another workflow by its bold verb, as it runs an operation.
 
 The reading block:
 
 ```markdown
-<!-- workflow-instructions 2 -->
-This is a workflow skill. Work through the steps in order; the user may redo, skip,
-or reorder them. Only the headings under `# Steps` are steps; any other section is
-read when a step refers to it. Under each step, read everything listed before
-acting: `skill: <name>` through the skill mechanism, and `[Name]` as the section
-with that heading, or the link defined for it relative to this skill's folder. Say
-what you read in each step.
+<!-- workflow-instructions 3 -->
+This is a workflow skill. Its steps are the `##` headings under `# Steps`. When
+SKILL.md lists several workflows under `# Workflows`, read only the file of the
+one that fits the request; its steps are the run. Work through the steps in
+order; the user may redo, skip, or reorder them. When a step names another
+section, file, or skill, read it then. A bold name, such as **Approve**, runs that
+operation from `# Operations` or that workflow from `# Workflows`.
 <!-- workflow-instructions end -->
 ```
 
-- Refer to a section by its exact heading text: `[Approve]`. Every heading name
-  must be unique in the file, including the group headings.
-- Refer to another file with a shortcut reference link and its definition:
-  `[what to flag]` with `[what to flag]: criteria.md#what-to-flag`.
+- Name a section by its exact heading text, and keep every heading name unique in
+  the file. Link a file relative to the skill folder.
 - Name only model-invocable skills, by bare name.
 - Read a skill that should shape the whole run in the first step.
 - Workflow skills are usually request-only; set activation as above.
@@ -137,8 +161,9 @@ what you read in each step.
   `grep -rn '<!-- workflow-instructions [0-9]' plugins/` reports with an older one.
 
 When the skill needs execution consent (see Activation and approval), SKILL.md
-holds only the gate. The layout above goes in `workflow.md`, which SKILL.md reads
-once consent is given, so nothing of the run is read before the user agrees.
+holds only the gate. The layout above goes in `01-workflow-<verb>.md`, operations
+included, which SKILL.md reads once consent is given, so nothing of the run is read
+before the user agrees.
 
 ## Reviewable proposals
 

@@ -73,9 +73,9 @@ authoring into a fixed questionnaire.
 Present the proposal in the conversation before creating files, for the user's
 review and approval, as presentation.md describes. It must show the capability, its
 inputs and exclusions, the activation policy and any gates, and a short end-to-end
-invocation example. Per file it must show responsibility, path, a representative
-excerpt of the proposed text (the description, frontmatter, routing links, gates, one
-procedure step), and how it connects to the other files. It must also state the
+invocation example. Show the package as Presenting a skill in presentation.md
+describes, opening the frontmatter, routing links, gates, and one procedure step,
+and say per file what it is responsible for and how it connects to the others. It must also state the
 chosen bundle, the invocation metadata for each target harness, and where editable
 knowledge lives and how the user requests changes to it. A cohesive small skill gets
 a compact proposal.
