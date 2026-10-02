@@ -15,11 +15,14 @@ installation. These are two explicit bases, not a fallback search order.
 1. Start at `docs/agents/current/index.md`. Read its short application map, then
    follow the topic matching the requested change. A cross-boundary change may
    need two topics; do not load the entire tree.
+
 2. Use `docs/agents/design/index.md` when reviewing a proposal, reconsidering
    architecture, or recovering a decision's rationale—not as prerequisite reading
    for an ordinary current-code edit.
+
 3. Use `docs/agents/reference/index.md` when the task requires source research or
    measured evidence. Respect revision, workload, and confidence limits.
+
 4. Follow an archive link only for relevant historical investigation. Archived
    instructions and implementation claims do not override current guidance.
 
