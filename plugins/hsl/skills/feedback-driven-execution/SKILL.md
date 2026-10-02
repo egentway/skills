@@ -4,10 +4,11 @@ description: >-
   Use when implementation is likely to reveal consequential choices that could
   not be settled from requirements alone, especially at unfamiliar integration
   seams, in projects without a governing convention, or whenever a solution
-  starts to feel patched together or hacky. Ask a technical user for focused,
-  concrete feedback when it is cheaper than silently choosing and later
-  reworking the result. Use with cognitive-budget-coding so the implementation
-  and the choices presented remain easy to evaluate.
+  starts to feel patched together or hacky, or grows more complex than the plan
+  suggested. Ask a technical user for focused, concrete feedback when it is
+  cheaper than silently choosing and later reworking the result. Use with
+  cognitive-budget-coding so the implementation and the choices presented remain
+  easy to evaluate.
 ---
 
 # Feedback-Driven Execution
@@ -122,6 +123,36 @@ Before entrenching a hack:
 Do not disguise the compromise behind a helper, abstraction, comment, fallback,
 or TODO. If external constraints make a workaround unavoidable, keep it at one
 boundary and make its invariant reviewable after the user accepts it.
+
+## Report complexity as it grows
+
+An implementation can avoid every hack and still become harder to understand
+than the plan suggested. Watch for long classes or methods, deep nesting,
+proliferating state flags, duplicated ownership, wrapper chains, and custom
+machinery that overlaps a framework's responsibilities. These are inspection
+signals, not defects or line-count limits.
+
+Judge the implementation, not only its interface: a two-method helper can hide a
+state machine. Name the requirements that create the complexity, and whether
+the abstraction removes work or only moves it out of sight. Do not call
+complexity necessary without weighing plausible alternatives.
+
+When a hotspot becomes concrete and a change to a requirement, boundary,
+dependency, or code shape could simplify it, raise it as an implementation
+checkpoint (see Ask at an implementation checkpoint). Name the file or symbol,
+the mechanism that grew, and its cost, separating complexity the contract
+requires from complexity the chosen implementation adds. Recommend continuing
+provisionally, simplifying locally, or reconsidering the boundary. A bounded,
+understood concern does not need to stop the work.
+
+Do not add abstractions, split files, or compress code only to improve a size
+metric; judge whether the reader has less to reconstruct afterwards.
+
+At handoff, report the material concerns that remain, including those not worth
+an interruption, and carry forward any provisional acceptance: approval to try
+an implementation does not establish that its design is satisfactory, and
+passing checks do not establish maintainability. Do not manufacture a concern
+when nothing meaningful emerged.
 
 ## Ask at an implementation checkpoint
 
