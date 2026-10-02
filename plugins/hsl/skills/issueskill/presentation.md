@@ -16,12 +16,15 @@ Show a skill, existing or proposed, through its structure, then open only what i
 under review.
 
 1. **Entry.** The description and the opening line, abridged.
+
 2. **Outline.** Every file in reading order: SKILL.md, then the numbered files,
-   then `catalogues/`. Under each, its headings in file order. A step carries its
-   first sentence and the operations or workflows it runs; a section after `---`
-   carries its first sentence; other headings appear bare. For an existing skill,
+   then `catalogues/`. Under each, its opening sentence and its headings in file
+   order. A step carries its first sentence, its Gate and Stop if fields, and the
+   operations or workflows it runs; a section after `---` carries its first
+   sentence; other headings appear bare. For an existing skill,
    generate it with `python3 scripts/outline.py <skill-dir>`, resolving the script
    relative to this skill's folder; for a proposed one, write it in the same form.
+
 3. **Opened sections.** Expand the sections that changed or that the user asked
    about, as abridged excerpts labeled proposed or current. Everything else stays
    in the outline.

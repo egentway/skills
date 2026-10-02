@@ -28,13 +28,21 @@ outcome, non-obvious context, and real constraints. Keep SKILL.md short and move
 mode-specific detail into linked files. Correct an observed failure narrowly rather
 than adding a universal rule.
 
+Separate Markdown blocks of different kinds with a blank line: after every
+heading, and before and after each list, code block, and table. Renderers such as
+pandoc otherwise merge a list into the paragraph above it. In a numbered list
+where any item wraps onto a second line, put a blank line between all its items;
+keep lists of one-line items compact.
+
 ## Activation and approval
 
 Choose activation deliberately for each produced skill:
 
 1. Use the policy established by the user's request or clear context.
+
 2. Otherwise ask whether the skill should be request-driven, recommending automatic
    applicability by default. The default does not replace asking when unclear.
+
 3. State the selected policy in the proposal.
 
 For request-driven skills, state the request-only boundary in the instructions and
@@ -121,12 +129,28 @@ Lay SKILL.md out in this order:
 1. An opening: one line on what the skill does; if the skill also takes requests
    that are not a run, such as maintaining its catalogue, one line routing them to
    their file; then the reading block below, copied as is with its markers.
+
 2. `# Operations`, if any: short actions named as verbs, such as `## Approve`.
    Define one only when it recurs across steps, workflows, or skills; anything
    used once stays in its step. A step runs an operation by writing its name in
    bold where it takes effect, in a sentence that says when.
+
 3. `# Steps`, with one `## <Verb>` per step. Open each step with a one-line
-   purpose, then give its instructions. Split a long step into `###` parts.
+   purpose, then the fields that apply:
+
+   - **Input:** what the step consults or receives.
+   - **Output:** what it leaves behind.
+   - **Gate:** where the run pauses for the user, naming the operation in bold;
+     it continues from their answer.
+   - **Stop if:** what the agent may find that ends the run early.
+
+   The body follows: the procedure, as numbered actions where the work has an
+   order and as prose where it does not; prefer numbered actions. A body that
+   starts with a bullet list opens with a lead-in line, so renderers keep it
+   apart from the fields instead of merging the two lists. Branches that
+   change the work without ending the run go in the body. Move long material,
+   such as a template, into a `###` part and name it from the action that uses it.
+
 4. If supporting sections follow, a horizontal rule (`---`, with a blank line
    before it), then those sections. A section belongs outside the steps only when
    several steps read it; otherwise its content stays in its step. A collection
@@ -135,7 +159,9 @@ Lay SKILL.md out in this order:
 A skill with several workflows puts `# Workflows` in SKILL.md in place of
 `# Steps`: one line per workflow with its bold verb, its file, and when it
 applies. Each `NN-workflow-<verb>.md` file holds a `# Steps` laid out as above,
-without the opening or the reading block. Operations are defined only in SKILL.md.
+without the reading block. It may open with a short paragraph saying when the
+workflow applies and what it does not cover. Operations are defined only in
+SKILL.md.
 A step runs another workflow by its bold verb, as it runs an operation.
 
 The reading block:
