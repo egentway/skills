@@ -183,7 +183,9 @@ valid. Only a person refuses; a stale proposal is withdrawn.
 A decision that changes requirements from an earlier decision replaces whole
 parts, or the whole Requirements section, and restates them in full. List each
 in `supersedes`; omit `part` to replace all of that decision's requirements. Never
-amend part of a part: a requirement must be readable from one decision.
+amend part of a part: a requirement must be readable from one decision. Adding to
+a topic an earlier part covers is a change too when that part, read alone, would
+then mislead a reader about current requirements.
 
 A decision part is in force while a project-model section links it. After the
 recording commit, the superseded part has no links left.
@@ -192,8 +194,9 @@ recording commit, the superseded part has no links left.
 
 `is_human_approved` states whether a person or an agent accepted the record.
 `approved_by` may add who: for a person, what they state or the repository's Git
-identity; for an agent, an identity from a real identification system. Never
-guess an identifier. When `mod.yaml` requires one that cannot be established, ask.
+identity; for an agent, an identity from a real identification system, and
+nothing when there is none. Never guess an identifier. When `mod.yaml` requires
+one that cannot be established, ask.
 
 An agent may accept only when `mod.yaml` enables delegated acceptance, and only
 as a reviewer with a fresh context that did not draft the proposal. It accepts or
@@ -245,6 +248,11 @@ frozen.
 routing. A topic guide opens with when to consult it and a task-to-file or symbol
 map, then the main flow, invariants, wrong edit boundaries, and focused checks.
 It links code and project-model sections rather than copying either.
+
+A topic guide also lists, under `## Interpretations`, the choices the
+implementation made where the project model leaves room: what a reader of the
+requirements could not predict from them alone. If the user would object to one
+being different, it is a missing requirement and needs **Decide** instead.
 
 Where the implementation does not yet conform to the project model, the guide
 says so under a fixed heading:

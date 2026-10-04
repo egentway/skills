@@ -117,6 +117,9 @@ invariants, and relevant verification.
 - Record where the implementation does not conform under `## Gaps with the
   project model`, linking the section. Remove the note when the gap closes.
 
+- Record consequential free choices under `## Interpretations`, so the next
+  reader knows what the requirements left open and how it was settled.
+
 - Keep proposals, alternatives, and history out of the guides. State test and
   runtime evidence separately; a test path is not proof of service behavior.
 

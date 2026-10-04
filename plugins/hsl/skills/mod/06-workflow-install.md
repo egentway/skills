@@ -81,9 +81,10 @@ accepted decision first.
    block: remove it only within an approved migration, after its content is
    accounted for.
 
-Claude Code reads `CLAUDE.md`, not `AGENTS.md`. If the project has a `CLAUDE.md`
-that neither imports nor links `AGENTS.md`, report it and offer to add the
-import; do not edit it unasked.
+Claude Code reads `CLAUDE.md`, not `AGENTS.md`. If the project has no `CLAUDE.md`,
+offer to create one containing only `@AGENTS.md`. If it has one that neither
+imports nor links `AGENTS.md`, report it and offer to add the import. Do not
+create or edit it unasked.
 
 ## Check
 
