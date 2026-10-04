@@ -7,24 +7,13 @@ disable-model-invocation: true
 
 Plan, implement, and review a code change. The user's request follows the command.
 
-<!-- workflow-instructions 5 -->
+<!-- workflow-instructions 6 -->
 This is a workflow skill. Its steps are the `##` headings under `# Steps`. When
 SKILL.md lists several workflows under `# Workflows`, read only the file of the
 one that fits the request; its steps are the run. Work through the steps in
 order; the user may redo, skip, or reorder them. When a step names another
 section, file, or skill, read it then. A bold name, such as **Approve**, runs that
 operation from `# Operations` or that workflow from `# Workflows`.
-
-When starting a workflow, record its steps by name in your task-list tool before
-the first step; load or enable the tool if needed. Reuse this run's entries when
-resuming, and update them as the run progresses. If the harness provides no
-task-list tool, continue without one.
-
-Track the outermost workflow. A called workflow keeps the caller's step in
-progress; show its current inner step in that entry's description, or its label
-if descriptions are unavailable. Do not add a second list of inner steps. Keep
-a step in progress while its Gate awaits the user; complete it only after its
-output and gate are settled.
 <!-- workflow-instructions end -->
 
 # Operations
